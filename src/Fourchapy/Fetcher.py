@@ -4,7 +4,7 @@ Created on Sep 9, 2012
 @author: Paulson McIntyre (GpMidi) <paul@gpmidi.net>
 '''
 #===============================================================================
-#    This file is part of Py4chan. 
+#    This file is part of 4chapy. 
 #
 #    PyPWSafe is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ Created on Sep 9, 2012
 
 # Setup logging
 import logging
-logger = logging.getLogger("Py4chan." + __name__)
+logger = logging.getLogger("Fourchapy." + __name__)
 log = logger.log
 
 from urllib import urlopen

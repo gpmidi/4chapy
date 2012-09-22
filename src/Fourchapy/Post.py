@@ -4,7 +4,7 @@ Created on Sep 9, 2012
 @author: Paulson McIntyre (GpMidi) <paul@gpmidi.net>
 '''
 #===============================================================================
-#    This file is part of Py4chan. 
+#    This file is part of 4chapy. 
 #
 #    PyPWSafe is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,10 +22,10 @@ Created on Sep 9, 2012
 
 # Setup logging
 import logging
-logger = logging.getLogger("Py4chan." + __name__)
+logger = logging.getLogger("Fourchapy." + __name__)
 log = logger.log
 
-class Py4chanPost(object):
+class FourchapyPost(object):
     """ A 4chan post
     """
     POSTOBJECTS = {
@@ -74,5 +74,28 @@ class Py4chanPost(object):
         if self.RenamedFilename:
             self.ImageURL = "%s://images.4chan.org/%s/src/%d.%s" % (self.Proto, self.Board, self.RenamedFilename, self.FileExtension)
             self.ThumbImageURL = "%s://1.thumbs.4chan.org/%s/thumb/%d.jpg" % (self.Proto, self.Board, self.RenamedFilename)
-
+        
+    def displayToString(self, nameWidth = 15):
+        """ Return a multi-line string that displays this post's info. """
+        ret = '=' * 50 + "\n"
+        ret += " %s #%d: %r" % (self.Board, self.Number, self.Subject) + "\n"
+        ret += '=' * 50 + "\n"
+        for code, info in self.POSTOBJECTS.items():
+            value = str(getattr(self, info['name']))
+            if value == "None":
+                continue
+            if value.count('\n') == 0:
+                for line in value.split('<br>'):
+                    ret += info['name'].rjust(nameWidth) + ": " + line + "\n"
+            else:
+                for line in value.splitlines():
+                    for line2 in line.split('<br>'):
+                        ret += info['name'].rjust(nameWidth) + ": " + line2 + "\n"
+        return ret
+    
+    def display(self, nameWidth = 15):
+        """ Return a multi-line string that displays this post's info. """
+        print self.displayToString(nameWidth = nameWidth)
+        
+        
 

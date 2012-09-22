@@ -12,18 +12,18 @@ Simple Example Using Python 2.6 Built-in Libraries
 	# Display the data
 	pprint(decoded)
 
-Using Py4chan
+Using 4chapy
 	# Import the library
-	from Py4chan import Py4chanThread
+	from Fourchapy import FourchapyThread
 	# Download a thread from diy with an ID of 12345
-	t = Py4chanThread(boardID = 'diy', threadID = 12345)
+	t = FourchapyThread(boardID = 'diy', threadID = 12345)
 	# Loop over all posts in the thread and print out info from the post
 	for post in t.Posts:
 		print "--- %d ---"%post.Number
 		print "Subject: %s"%post.Subject
 		print "Comment: %s"%post.Comment
 		
-Py4chan Testing Steps
+4chapy Testing Steps
 	1) Copy "Test.conf.ini.sample" to "Test.conf.ini"
 	2) Edit "Test.conf.ini"
 		a) Update the threadID with the thread ID number from current threads

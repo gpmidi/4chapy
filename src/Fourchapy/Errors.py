@@ -1,10 +1,10 @@
-''' A simple Python API for read-only access to the 4chan API. 
+''' Fetch 4chan API data in a 4chan-friendly fashion
 Created on Sep 9, 2012
 
 @author: Paulson McIntyre (GpMidi) <paul@gpmidi.net>
 '''
 #===============================================================================
-#    This file is part of Py4chan. 
+#    This file is part of 4chapy. 
 #
 #    PyPWSafe is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,5 +20,21 @@ Created on Sep 9, 2012
 #    along with PyPWSafe.  If not, see http://www.gnu.org/licenses/old-licenses/gpl-2.0.html 
 #===============================================================================
 
-from Thread import Py4chanThread
+# Setup logging
+import logging
+logger = logging.getLogger("Fourchapy." + __name__)
+log = logger.log
 
+from urllib import urlopen
+import datetime
+from json import loads
+import time
+
+class NoDataReturnedError(ValueError):
+    """ An empty JSON file was downloaded from 4chan. This usually means that the thread
+    is dead/deleted. 
+    """
+
+class ThreadNotFoundError(ValueError):
+    """ The requested thread doens't exist anymore. 
+    """

@@ -3,6 +3,22 @@ Created on Sep 9, 2012
 
 @author: Paulson McIntyre (GpMidi) <paul@gpmidi.net>
 '''
+#===============================================================================
+#    This file is part of 4chapy. 
+#
+#    PyPWSafe is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    PyPWSafe is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with PyPWSafe.  If not, see http://www.gnu.org/licenses/old-licenses/gpl-2.0.html 
+#===============================================================================
 import logging
 logging.basicConfig()
 
@@ -16,13 +32,13 @@ DEFAULT_LOGGING_LEVEL = 1
 # Config file telling us what tests to run and what data to use with the tests
 DEFAULT_CONFIG_FILE = 'test.conf.ini'
 # Screen width, in chars
-# Don't forget about the "INFO:Py4chan" width
+# Don't forget about the "INFO:Fourchapy" width
 DISPLAY_WIDTH = 150
 # Test results
 RESULTS_PASS = "PASS"
 RESULTS_FAIL = "FAIL"
 
-logger = logging.getLogger("Py4chan")
+logger = logging.getLogger("Fourchapy")
 logger.setLevel(DEFAULT_LOGGING_LEVEL)
 log = logger.log
 
@@ -31,14 +47,14 @@ import re
 
 def Thread_Main_Test(cfg, testName, testType):
     log(10, "Loading library")
-    from Py4chan import Py4chanThread
+    from Fourchapy import FourchapyThread
     
     log(10, "Getting config")
     threadID = cfg.getint(testName, 'threadID')
     boardID = cfg.get(testName, 'boardID')
         
     log(10, "Creating thread object with ID=%r from board %r", threadID, boardID)
-    t = Py4chanThread(boardID = boardID, threadID = threadID)
+    t = FourchapyThread(boardID = boardID, threadID = threadID)
     log(10, "Created %r", t)
     
     return RESULTS_PASS

@@ -4,7 +4,7 @@ Created on Sep 9, 2012
 @author: Paulson McIntyre (GpMidi) <paul@gpmidi.net>
 '''
 #===============================================================================
-#    This file is part of Py4chan. 
+#    This file is part of 4chapy. 
 #
 #    PyPWSafe is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,14 +22,14 @@ Created on Sep 9, 2012
 
 # Setup logging
 import logging
-logger = logging.getLogger("Py4chan." + __name__)
+logger = logging.getLogger("Fourchapy." + __name__)
 log = logger.log
 
 from Fetcher import Fetch4chan
-from Post import Py4chanPost
+from Post import FourchapyPost
 from Errors import NoDataReturnedError, ThreadNotFoundError # Don't import *; it will overwrite logging vars
 
-class Py4chanThread(Fetch4chan):
+class FourchapyThread(Fetch4chan):
     """ Represent a thread from a 4chan board
     
     """    
@@ -54,5 +54,5 @@ class Py4chanThread(Fetch4chan):
             raise ThreadNotFoundError, "Thread ID %r from %r was not found on the server. " % (self.Thread, self.Board)
         
         for postData in json['posts']:
-            self.Posts.append(Py4chanPost(board = self.Board, postData = postData, proto = self.Proto)) 
+            self.Posts.append(FourchapyPost(board = self.Board, postData = postData, proto = self.Proto)) 
             
