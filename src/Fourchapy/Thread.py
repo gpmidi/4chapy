@@ -53,6 +53,7 @@ class FourchapyThread(Fetch4chan):
         except NoDataReturnedError:
             raise ThreadNotFoundError, "Thread ID %r from %r was not found on the server. " % (self.Thread, self.Board)
         
+        index = 0
         for postData in json['posts']:
-            self.Posts.append(FourchapyPost(board = self.Board, postData = postData, proto = self.Proto)) 
-            
+            self.Posts.append(FourchapyPost(board = self.Board, postData = postData, proto = self.Proto, index = index,)) 
+            index += 1

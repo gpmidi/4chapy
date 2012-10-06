@@ -87,6 +87,7 @@ class Fetch4chan(object):
             log(5, "Starting to read data")
             text = fHandle.read()
             log(10, "Read %d bytes", len(text))
+            self._raw_text = text
             return text
         finally:
             fHandle.close()

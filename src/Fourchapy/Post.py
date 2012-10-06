@@ -58,10 +58,11 @@ class FourchapyPost(object):
                  'custom_spoiler':dict(type = int, name = "CustomSpoiler", desc = ""),
                  }
     
-    def __init__(self, board, postData = None, proto = 'http'):
+    def __init__(self, board, postData = None, proto = 'http', index = 0):
         self.Board = board
         self.Proto = proto
         self._rawData = postData
+        self.Index = index
         
         for code, info in self.POSTOBJECTS.items():
             if postData.has_key(code):
