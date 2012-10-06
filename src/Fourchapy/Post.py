@@ -98,5 +98,16 @@ class FourchapyPost(object):
         """ Return a multi-line string that displays this post's info. """
         print self.displayToString(nameWidth = nameWidth)
         
-        
-
+    def getImageURL(self):
+        """ Returns the URL to download the image at. None if there isn't one """
+        if hasattr(self, 'RenamedFilename'):
+            return "%s://images.4chan.org/%s/src/%s.%s" % (self.Proto, self.Board, self.RenamedFilename, self.FileExtension)
+        return None
+    
+    def getImageThumbURL(self):
+        """ Returns the URL to download the image at. None if there isn't one """
+        import random
+        if hasattr(self, 'RenamedFilename'):
+            return "%s://%d.thumbs.4chan.org/%s/thumb/%s.jpg" % (self.Proto, random.randint(0, 2), self.Board, self.RenamedFilename)
+        return None
+    
