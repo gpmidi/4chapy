@@ -100,14 +100,14 @@ class FourchapyPost(object):
         
     def getImageURL(self):
         """ Returns the URL to download the image at. None if there isn't one """
-        if hasattr(self, 'RenamedFilename'):
+        if hasattr(self, 'RenamedFilename') and self.RenamedFilename and hasattr(self, 'FileExtension') and self.FileExtension:
             return "%s://images.4chan.org/%s/src/%s.%s" % (self.Proto, self.Board, self.RenamedFilename, self.FileExtension)
         return None
     
     def getImageThumbURL(self):
         """ Returns the URL to download the image at. None if there isn't one """
         import random
-        if hasattr(self, 'RenamedFilename'):
+        if hasattr(self, 'RenamedFilename') and self.RenamedFilename:
             return "%s://%d.thumbs.4chan.org/%s/thumb/%s.jpg" % (self.Proto, random.randint(0, 2), self.Board, self.RenamedFilename)
         return None
     
