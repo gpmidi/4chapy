@@ -3,6 +3,18 @@ FourChapy
 A simple library for accessing 4chan's JSON API.  
 
 
+Features
+-----
+* Simple and easy to use
+* Built-in request rate throttling ensures that you won't accidently get 
+your IP banned due to request flooding. See the API rules for details about
+max request rates (https://github.com/4chan/4chan-API#api-rules)
+* Lazy fetching - The 4chapy API will not try to fetch data from 4chan's
+servers until your app requests data that it doesn't already have. This 
+helps ensure that your app is not making unnecessary requests which would
+slow down your app and increase load on 4chan's servers for no reason. 
+
+
 Using 4chapy - From the bottom up
 -----
 	# Import the library
@@ -27,6 +39,7 @@ Using 4chapy - From the bottom up
 					print "--- %d ---" % post.Number
 					print "Subject: %r" % post.Subject
 					print "Comment: %r" % post.Comment
+	
 	
 Using 4chapy - If you know the board and thread you want
 -----
