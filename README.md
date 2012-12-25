@@ -70,8 +70,3 @@ Simple Example Using Only Python 2.6 Built-in Libraries
 4.  If logging is set at or below INFO, a table will be displayed that shows
 	the results of the different tests.  
 5.  Reimplement this as unit tests. 
-
-
-TODO
------
-1.  Change Test.py over to unit tests or something more standard, less stupid. 
