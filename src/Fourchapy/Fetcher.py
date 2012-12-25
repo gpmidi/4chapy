@@ -45,7 +45,7 @@ class Fetch4chan(object):
         url='http(s)://api.4chan.org/board/res/threadnumber.json'       
         """
         if self.URL and url:
-            log(10, "Overwriting %r with %r" % (self.URL, url))
+            log(20, "Overwriting %r with %r" % (self.URL, url))
         if url:
             self.URL = url
         if not self.URL:
