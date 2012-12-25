@@ -43,8 +43,9 @@ class FourchapyBoard(object):
         
         for code, info in self.POSTOBJECTS.items():
             if boardData.has_key(code):
-                log(5, "Found %r. Set %r to %r", code, info['name'], boardData[code])
-                setattr(self, info['name'], boardData[code])
+                value = info['type'](boardData[code])
+                log(5, "Found %r. Set %r to %r", code, info['name'], value)
+                setattr(self, info['name'], value)
             else:
                 log(5, "Didn't find %r", code)
                 setattr(self, info['name'], None)

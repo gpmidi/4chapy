@@ -66,8 +66,9 @@ class FourchapyPost(object):
         
         for code, info in self.POSTOBJECTS.items():
             if postData.has_key(code):
-                log(5, "Found %r. Set %r to %r", code, info['name'], postData[code])
-                setattr(self, info['name'], postData[code])
+                value = info['type'](postData[code])
+                log(5, "Found %r. Set %r to %r", code, info['name'], value)
+                setattr(self, info['name'], value)
             else:
                 log(5, "Didn't find %r", code)
                 setattr(self, info['name'], None)
