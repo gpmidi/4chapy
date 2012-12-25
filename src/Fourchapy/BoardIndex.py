@@ -62,7 +62,7 @@ class FourchapyBoardIndex(Fetch4chan):
     
     @Fetch4chan.addLazyDataObjDec(attrName = 'BoardsDict')
     def updateBoardsDict(self, sleep = True):
-        ret = []
+        ret = {}
         for board in self.Boards:
             ret[board.Board] = board
         return ret

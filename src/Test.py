@@ -74,6 +74,7 @@ def Boards_Main_Test(cfg, testName, testType):
     log(10, "Creating board index object")
     index = FourchapyBoardIndex(proto = proto)
     
+    log(10, "Trying via lists (first-tier attrs)")
     for board in index.Boards:
         log(5, "Looking at board %r", board)
         if board.Board == boardID:
@@ -84,8 +85,52 @@ def Boards_Main_Test(cfg, testName, testType):
                 for thread in page.Threads:
                     log(10, "Found thread %r", thread)
     
+    log(10, "Trying via dicts (second tier attrs) - AFTER lists - Should already be populated")
+    board = index.BoardsDict[boardID]
+    log(10, "Found a board to work with")
+    for page in board.getPages(minPage = pageID, maxPage = pageID):
+        log(10, "Looking at page %r", page)
+        assert page.Page == pageID
+        thread = page.ThreadsDict
+        log(10, "Found thread %r", thread)
+    
     return RESULTS_PASS
 
+def Boards_Dict_First_Test(cfg, testName, testType):
+    log(10, "Loading library")
+    from Fourchapy import FourchapyBoardIndex
+    
+    log(10, "Getting config")
+    # Recurse into this board+page+threads
+    pageID = cfg.getint(testName, 'pageID')
+    boardID = cfg.get(testName, 'boardID')
+    # HTTP/HTTPS
+    proto = cfg.get(testName, 'proto')
+    
+    log(10, "Creating board index object")
+    index = FourchapyBoardIndex(proto = proto)
+    
+    log(10, "Trying via dicts (second tier attrs)")
+    board = index.BoardsDict[boardID]
+    log(10, "Found a board to work with")
+    for page in board.getPages(minPage = pageID, maxPage = pageID):
+        log(10, "Looking at page %r", page)
+        assert page.Page == pageID
+        thread = page.ThreadsDict
+        log(10, "Found thread %r", thread)
+    
+    log(10, "Trying via lists (first-tier attrs) - AFTER dicts - Should already be populated")
+    for board in index.Boards:
+        log(5, "Looking at board %r", board)
+        if board.Board == boardID:
+            log(10, "Found a board to work with")
+            for page in board.getPages(minPage = pageID, maxPage = pageID):
+                log(10, "Looking at page %r", page)
+                assert page.Page == pageID
+                for thread in page.Threads:
+                    log(10, "Found thread %r", thread)
+        
+    return RESULTS_PASS
 
 # Regexs used to match the section names to different tests
 TEST_NAME_REGEXS = dict(
@@ -96,6 +141,10 @@ TEST_NAME_REGEXS = dict(
                         BoardsMain = dict(
                                           re = re.compile(r'^BoardsMain\-\d+$'),
                                           func = Boards_Main_Test,
+                                          ),
+                        BoardsDictMain = dict(
+                                          re = re.compile(r'^BoardsDictMain\-\d+$'),
+                                          func = Boards_Dict_First_Test,
                                           ),
                         )
 

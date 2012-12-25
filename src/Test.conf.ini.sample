@@ -21,3 +21,13 @@ proto=http
 boardID=b
 pageID=2
 proto=https
+
+[BoardsDictMain-1]
+boardID=diy
+pageID=0
+proto=https
+
+[BoardsDictMain-2]
+boardID=b
+pageID=2
+proto=http
