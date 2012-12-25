@@ -48,5 +48,4 @@ Using 4chapy
 
 TODO
 -----
-1.  Rename all of the 'root' level classes so they don't include "Fourchappy" in the beginning.
-2.  Change Test.py over to unit tests or something more standard, less stupid. 
+1.  Change Test.py over to unit tests or something more standard, less stupid. 
