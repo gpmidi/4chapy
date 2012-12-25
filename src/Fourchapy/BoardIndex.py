@@ -55,4 +55,7 @@ class FourchapyBoardIndex(Fetch4chan):
             self.Boards.append(FourchapyBoard(
                                              boardData = boardData,
                                              proto = self.Proto,
-                                             )) 
+                                             ))
+             
+    def __repr__(self):
+        return "<BoardIndex %r>" % self.Proto

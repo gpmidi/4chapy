@@ -30,7 +30,7 @@ class FourchapyBoard(object):
     """ A 4chan board
     """
     POSTOBJECTS = {
-                   'board':dict(type = unicode, name = "BoardID", desc = "Board ID string"),
+                   'board':dict(type = unicode, name = "Board", desc = "Board ID string"),
                    'title':dict(type = unicode, name = "BoardName", desc = "Human readable board name"),
                    'ws_board':dict(type = bool, name = "SafeForWork", desc = "The board's contents are work safe"),
                    'per_page':dict(type = int, name = "ThreadsPerPage", desc = "The number of threads displayed per page"),
@@ -49,7 +49,13 @@ class FourchapyBoard(object):
             else:
                 log(5, "Didn't find %r", code)
                 setattr(self, info['name'], None)
-        
+    
+    def __str__(self):
+        return "%r (%s)" % (self.Board, self.BoardName)
+    
+    def __repr__(self):
+        return "<Board %r>" % (self.Board,)
+    
     def displayToString(self, nameWidth = 15):
         """ Return a multi-line string that displays this post's info. """
         ret = '=' * 50 + "\n"
@@ -90,11 +96,11 @@ class FourchapyBoard(object):
         @param page: int 0 to self.Pages-1
         """
         page = int(page)
-        if hasattr(self, 'Pages') and hasattr(self, 'BoardID'):
+        if hasattr(self, 'Pages') and hasattr(self, 'Board'):
             if page >= 0 and page < self.Pages:
                 return "%s://api.4chan.org/%s/%d.json" % (
                                                           self.Proto,
-                                                          self.BoardID,
+                                                          self.Board,
                                                           page,
                                                           )
         return None
@@ -112,7 +118,7 @@ class FourchapyBoard(object):
         pages = []
         for pageID in xrange(minPage, maxPage + 1):
             pages.append(FourchapyThreadPage(
-                                             boardID = self.BoardID,
+                                             boardID = self.Board,
                                              pageID = pageID,
                                              proto = self.Proto,
                                              ))

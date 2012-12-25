@@ -59,3 +59,5 @@ class FourchapyThreadPage(Fetch4chan):
                                               proto = self.Proto,
                                               )) 
             
+    def __repr__(self):
+        return "<ThreadPage %r %r>" % (self.Board, self.Page)

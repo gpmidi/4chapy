@@ -113,3 +113,5 @@ class FourchapyPost(object):
             return "%s://%d.thumbs.4chan.org/%s/thumb/%s.jpg" % (self.Proto, random.randint(0, 2), self.Board, self.RenamedFilename)
         return None
     
+    def __repr__(self):
+        return "<Post %r %r>" % (self.Board, self.Number)

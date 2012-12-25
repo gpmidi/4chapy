@@ -57,3 +57,6 @@ class FourchapyThread(Fetch4chan):
         for postData in json['posts']:
             self.Posts.append(FourchapyPost(board = self.Board, postData = postData, proto = self.Proto, index = index,)) 
             index += 1
+    
+    def __repr__(self):
+        return "<Thread %r %r>" % (self.Board, self.Thread)

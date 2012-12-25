@@ -76,7 +76,7 @@ def Boards_Main_Test(cfg, testName, testType):
     
     for board in index.Boards:
         log(5, "Looking at board %r", board)
-        if board.BoardID == boardID:
+        if board.Board == boardID:
             log(10, "Found a board to work with")
             for page in board.getPages(minPage = pageID, maxPage = pageID):
                 log(10, "Looking at page %r", page)
