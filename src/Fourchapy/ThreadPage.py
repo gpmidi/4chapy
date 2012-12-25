@@ -26,20 +26,19 @@ logger = logging.getLogger("Fourchapy." + __name__)
 log = logger.log
 
 from Fetcher import Fetch4chan
-from Post import FourchapyPost
+from Thread import FourchapyThread
 from Errors import NoDataReturnedError, ThreadNotFoundError  # Don't import *; it will overwrite logging vars
 
-class FourchapyThreadList(Fetch4chan):
-    """ Represent a
-    
-    """    
-    def __init__(self, boardID, threadID, proto = 'http', **kw):
+class FourchapyThreadPage(Fetch4chan):
+    """ Represent a page of threads for a given board.     
+    """
+    def __init__(self, boardID, pageID, proto = 'http', **kw):
         self.Proto = proto
         self.Board = boardID
-        self.Thread = threadID
+        self.Page = pageID
         
-        log(10, "Creating %r - board:%r thread:%r", self, boardID, threadID)
-        self.URL = '%s://api.4chan.org/%s/res/%d.json' % (self.Proto, self.Board, self.Thread)
+        log(10, "Creating %r - board:%r page:%r", self, boardID, pageID)
+        self.URL = '%s://api.4chan.org/%s/%d.json' % (self.Proto, self.Board, self.Page)
         
         Fetch4chan.__init__(self, **kw)
         
@@ -47,13 +46,16 @@ class FourchapyThreadList(Fetch4chan):
         
     def update(self, sleep = True):
         """ Download and update local data with data from 4chan. """
-        self.Posts = []
+        self.Threads = []
         try:
             json = self.fetchJSON(sleep = sleep)
         except NoDataReturnedError:
             raise ThreadNotFoundError, "Thread ID %r from %r was not found on the server. " % (self.Thread, self.Board)
         
-        index = 0
-        for postData in json['posts']:
-            self.Posts.append(FourchapyPost(board = self.Board, postData = postData, proto = self.Proto, index = index,)) 
-            index += 1
+        for data in json['threads']:
+            self.Posts.append(FourchapyThread(
+                                              boardID = self.Board,
+                                              threadID = int(data['posts'][0]['no']),
+                                              proto = self.Proto,
+                                              )) 
+            
