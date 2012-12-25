@@ -3,9 +3,8 @@ FourChapy
 A simple library for accessing 4chan's JSON API.  
 
 
-Using 4chapy
+Using 4chapy - From the bottom up
 -----
-From the bottom up: 
 	# Import the library
 	from Fourchapy import BoardIndex
 	# Download a list of all boards and basic info about them (via http)
@@ -29,7 +28,8 @@ From the bottom up:
 					print "Subject: %r" % post.Subject
 					print "Comment: %r" % post.Comment
 	
-If you know the board and thread you want: 
+Using 4chapy - If you know the board and thread you want
+-----
 	# Import the library
 	from Fourchapy import Thread
 	# Download a thread from diy with an ID of 12345
@@ -39,6 +39,7 @@ If you know the board and thread you want:
 		print "--- %d ---"%post.Number
 		print "Subject: %s"%post.Subject
 		print "Comment: %s"%post.Comment
+
 
 Simple Example Using Only Python 2.6 Built-in Libraries
 -----
