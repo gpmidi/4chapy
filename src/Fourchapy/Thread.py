@@ -33,12 +33,7 @@ class FourchapyThread(Fetch4chan):
     """ Represent a thread from a 4chan board
     
     """    
-    # List out what attrs we export (and need to fetch
-    # data for)
-    dataAttrs = [
-                 'Posts',
-                 ]
-    
+
     def __init__(self, boardID, threadID, proto = 'http', **kw):
         self.Proto = proto
         self.Board = boardID
@@ -48,10 +43,11 @@ class FourchapyThread(Fetch4chan):
         self.URL = '%s://api.4chan.org/%s/res/%d.json' % (self.Proto, self.Board, self.Thread)
         
         Fetch4chan.__init__(self, **kw)
-        
-    def update(self, sleep = True):
+
+    @FourchapyThread.addLazyDataObjDec(attrName = 'Posts')
+    def updatePostsList(self, sleep = True):
         """ Download and update local data with data from 4chan. """
-        self.Posts = []
+        ret = []
         try:
             json = self.fetchJSON(sleep = sleep)
         except NoDataReturnedError:
@@ -59,8 +55,27 @@ class FourchapyThread(Fetch4chan):
         
         index = 0
         for postData in json['posts']:
-            self.Posts.append(FourchapyPost(board = self.Board, postData = postData, proto = self.Proto, index = index,)) 
+            ret.append(FourchapyPost(
+                                     board = self.Board,
+                                     postData = postData,
+                                     proto = self.Proto,
+                                     index = index,
+                                     ))
             index += 1
+            
+        log(10, 'Found %d posts for %r', len(ret), self)
+        return ret
+    
+    @FourchapyThread.addLazyDataObjDec(attrName = 'PostsDict')
+    def updatePostsDict(self, sleep = True):
+        """ Download and update local data with data from 4chan. """
+        ret = {}
+        
+        for post in self.Posts:
+            ret[post.Number] = post
+            
+        log(10, 'Found %d posts for %r', len(ret), self)
+        return ret
     
     def __repr__(self):
         return "<Thread %r %r>" % (self.Board, self.Thread)

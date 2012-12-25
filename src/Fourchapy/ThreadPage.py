@@ -32,36 +32,45 @@ from Errors import NoDataReturnedError, ThreadNotFoundError  # Don't import *; i
 class FourchapyThreadPage(Fetch4chan):
     """ Represent a page of threads for a given board.     
     """
-    # List out what attrs we export (and need to fetch
-    # data for)
-    dataAttrs = [
-                 'Threads',
-                 ]
-    
+
     def __init__(self, boardID, pageID, proto = 'http', **kw):
         self.Proto = proto
         self.Board = boardID
-        self.Page = pageID
+        self.Page = int(pageID)
         
         log(10, "Creating %r - board:%r page:%r", self, boardID, pageID)
         self.URL = '%s://api.4chan.org/%s/%d.json' % (self.Proto, self.Board, self.Page)
         
         Fetch4chan.__init__(self, **kw)
-        
-    def update(self, sleep = True):
+    
+    @FourchapyThreadPage.addLazyDataObjDec(attrName = 'Threads')
+    def updateThreadsList(self, sleep = True):
         """ Download and update local data with data from 4chan. """
-        self.Threads = []
+        threads = []
         try:
             json = self.fetchJSON(sleep = sleep)
         except NoDataReturnedError:
-            raise ThreadNotFoundError, "Thread ID %r from %r was not found on the server. " % (self.Thread, self.Board)
+            raise ThreadNotFoundError, "Page number %d from %r was not found on the server. " % (self.Page, self.Board)
         
         for data in json['threads']:
-            self.Threads.append(FourchapyThread(
-                                              boardID = self.Board,
-                                              threadID = int(data['posts'][0]['no']),
-                                              proto = self.Proto,
-                                              )) 
+            threads.append(FourchapyThread(
+                                          boardID = self.Board,
+                                          threadID = int(data['posts'][0]['no']),
+                                          proto = self.Proto,
+                                          )) 
+        log(10, 'Found %d threads for %r', len(threads), self)
+        return threads
+    
+    @FourchapyThreadPage.addLazyDataObjDec(attrName = 'ThreadsDict')
+    def updateThreadsDict(self, sleep = True):
+        """ Download and update local data with data from 4chan. """
+        ret = {}
+        
+        for thread in self.Threads:
+            ret[thread.Thread] = thread
             
+        log(10, 'Found %d threads for %r', len(ret), self)
+        return ret
+    
     def __repr__(self):
         return "<ThreadPage %r %r>" % (self.Board, self.Page)

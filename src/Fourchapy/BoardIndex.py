@@ -31,13 +31,8 @@ from Errors import NoDataReturnedError  # Don't import *; it will overwrite logg
 
 class FourchapyBoardIndex(Fetch4chan):
     """ Represent a list of all boards and info about those boards. 
-    
-    """    
-    # List out what attrs we export (and need to fetch
-    # data for)
-    dataAttrs = [
-                 'Boards',
-                 ]
+
+    """
     
     def __init__(self, proto = 'http', **kw):
         self.Proto = proto
@@ -46,20 +41,31 @@ class FourchapyBoardIndex(Fetch4chan):
         self.URL = '%s://api.4chan.org/boards.json' % self.Proto
         
         Fetch4chan.__init__(self, **kw)      
-        
-    def update(self, sleep = True):
+    
+    @FourchapyBoardIndex.addLazyDataObjDec(attrName = 'Boards')
+    def updateBoardsList(self, sleep = True):
         """ Download and update local data with data from 4chan. """
-        self.Boards = []
+        ret = []
+        for boardID, board in self.BoardsDict.items():
+            ret.append(board)
+        return ret
+    
+    @FourchapyBoardIndex.addLazyDataObjDec(attrName = 'BoardsDict')
+    def updateBoardsDict(self, sleep = True):
         # try:
         json = self.fetchJSON(sleep = sleep)
         # except NoDataReturnedError:
         #    raise NoDataReturnedError, "Failed to read board data from the 4chan servers"
-        
+        boards = {}
         for boardData in json['boards']:
-            self.Boards.append(FourchapyBoard(
-                                             boardData = boardData,
-                                             proto = self.Proto,
-                                             ))
-             
+            board = FourchapyBoard(
+                                 boardData = boardData,
+                                 proto = self.Proto,
+                                 )
+            boards[board.Board] = board
+            log(5, "Created board %r", board)
+        log(10, "Found %d boards", len(boards))
+        return boards
+        
     def __repr__(self):
-        return "<BoardIndex %r>" % self.Proto
+        return "<BoardIndex Use:%r>" % self.Proto

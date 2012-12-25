@@ -40,9 +40,9 @@ class Fetch4chan(object):
     MinRequestTime = datetime.timedelta(seconds = 1)
     # The URL to fetch
     URL = None
-    # List out what attrs we export (and need to fetch
-    # data for)
-    dataAttrs = []
+    # All of our attributes that are waiting to be accessed before
+    # being populated.     
+    lazyAttrs = {}
                      
     def __init__(self, proxies = {}, url = None):
         """
@@ -57,42 +57,62 @@ class Fetch4chan(object):
             log(40, "No URL defined")
             raise ValueError, "No URL defined"
         self.Proxies = proxies
-        self._autoFetched = False
+        # A list of attrs that have been acquired for this object
+        self._autoFetched = {}
+        
+    @classmethod
+    def addLazyDataObjDec(cls, attrName):
+        """
+        @param attrName: The attribute that will be updated with the value 
+        update method's return value. The attrName must be unique for a given
+        class.
+        """
+        log(10, "Going to add lazy data object, %r, to %r", attrName, cls)
+        def decorator(func):
+            def newFunc(self, *args, **kw):
+                log(5, 'Running %r', func)
+                ret = func(self, *args, **kw)
+                setattr(self, attrName, ret)
+                return ret
+            newFunc.__doc__ = func.__doc__
+            # We can use the class attr cls.lazyAttrs because it's a 
+            # list for this class as a whole, not individual objects.
+            assert attrName not in cls.lazyAttrs 
+            cls.lazyAttrs[attrName] = newFunc
+            log(10, "Created new func %r and added it to %r", newFunc, cls.lazyAttrs)
+            return newFunc
+        log(10, "Built decorator %r", decorator)
+        return decorator
         
     def __getattr__(self, attr):
-        if attr in self.dataAttrs:
+        if attr in self.lazyAttrs:
             log(10, "Incoming request for our information via %r.%r", self, attr)
             # Set it to make sure we don't end up back here if the update method
             # doens't set it for some reason. 
-            for dataAttr in self.dataAttrs:
-                setattr(self, dataAttr, None)
+            for lazyAttrs in self.lazyAttrs:
+                setattr(self, lazyAttrs, None)
             
             # Make sure we only run once
             # FIXME: This and the fetching in general will lead to a possible race condition 
             # in multithreaded code. 
-            if self._autoFetched:
-                log.error("We've (%r) already tried to update. We didn't succeed for some reason. Not re-running fetch. ", self)
-                raise RuntimeError("Already run self.update() once - Not running it again. ")    
-            self._autoFetched = True            
+            if attr in self._autoFetched and self._autoFetched[attr]:
+                log(50, "We've (%r) already tried to update. We didn't succeed for some reason. Not re-running fetch. ", self)
+                raise RuntimeError("Already run an update for %r once on %r- Not running it again. " % (attr, self))    
+            self._autoFetched[attr] = True            
             
             # Get the data    
-            self.update()
+            method = self.lazyAttrs[attr]
+            value = method()
+            log(5, "Got %r from %r on %r", value, method, self)
             
-            # Validate the update func's work
-            for dataAttr in self.dataAttrs:
-                assert hasattr(self, dataAttr)
+            # Don't need to do this as the decorator does it for us
+            # setattr(self, attr, value)
+            assert hasattr(self, attr)
+            
             # Return the data
-            return getattr(self, attr, None)
+            return value
         else:
             raise AttributeError("No such attribute %r" % attr)
-    
-    def update(self, sleep = True):
-        """ Called automatically when a attribute is accessed with a name
-        listed in self.dataAttrs and said attr doesn't exist. In other
-        words, we're called when we actually need data. 
-        @return: None
-        """        
-        raise NotImplementedError("The update method of %r has not been overwritten", self)
     
     def fetchText(self, data = '', sleep = True):
         """ Fetch all data from self.URL
