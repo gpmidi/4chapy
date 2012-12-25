@@ -18,6 +18,7 @@ Simple Example Using Python 2.6 Built-in Libraries
 	# Display the data
 	pprint(decoded)
 
+
 Using 4chapy
 -----
 	# Import the library
@@ -29,6 +30,7 @@ Using 4chapy
 		print "--- %d ---"%post.Number
 		print "Subject: %s"%post.Subject
 		print "Comment: %s"%post.Comment
+		
 		
 4chapy Testing Steps
 -----
@@ -42,6 +44,7 @@ Using 4chapy
 	3) Run "Test.py". No arguments are required. 
 	4) If logging is set at or below INFO, a table will be displayed that shows
 		the results of the different tests.  
+
 
 TODO
 -----
