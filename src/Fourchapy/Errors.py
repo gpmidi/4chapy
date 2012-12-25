@@ -38,3 +38,10 @@ class NoDataReturnedError(ValueError):
 class ThreadNotFoundError(ValueError):
     """ The requested thread doens't exist anymore. 
     """
+
+class RequestRateTooHigh(RuntimeError):
+    """ We're making requests faster than 4chan allows. 
+    See https://github.com/4chan/4chan-API#api-rules for request rate details.
+    """ 
+    
+    

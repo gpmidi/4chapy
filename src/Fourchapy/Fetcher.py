@@ -30,12 +30,15 @@ import datetime
 from json import loads
 import time
 
-from Errors import NoDataReturnedError
+from Errors import NoDataReturnedError, RequestRateTooHigh
 
 # Keep track of last request
 last = {}
 
 class Fetch4chan(object):
+    """ Base class for classes that need to fetch and process data from
+    4chan's JSON API. 
+    """
     # Min time between requests, in seconds, per calling class
     MinRequestTime = datetime.timedelta(seconds = 1)
     # The URL to fetch
@@ -43,12 +46,30 @@ class Fetch4chan(object):
     # All of our attributes that are waiting to be accessed before
     # being populated.     
     lazyAttrs = {}
+    # Should override if needing to change globally
+    shouldSleep = True
+    ignoreRateLimit = False
                      
-    def __init__(self, proxies = {}, url = None):
+    def __init__(self, proxies = {}, url = None, sleep = None, ignoreRateLimit = None):
         """
-        proxies=dict(http="http://www.someproxy.com:3128")
-        url='http(s)://api.4chan.org/board/res/threadnumber.json'       
+        @param proxies: A dict of protocol:url strings that indicate what proxy to use
+        when accessing a given protocol. Ex: 
+        proxies=dict(http="http://p1.someproxy.com:3128",http2="http://p2.someproxy.com:3128") 
+        @param url: The URL to fetch when requesting data. Must return JSON data. If
+        this is a value other than None, it overrides the per-class default URL. 
+        Example: url='https://api.4chan.org/board/res/123456.json'         
+        @param sleep: Sleep if needed to keep above MinRequestTime. If non-True
+        and we are requesting to frequently, raise Fourchapy.errors.RequestRateTooHigh.
+        If None, then use the per-method and/or per-class shouldSleep value. 
+        @param ignoreRateLimit: If None, use the per-method and/or per-class 
+        ignoreRateLimit value. If True, only INFO-log when going over the rate limit. 
+        If False, sleep or raise an error when going over the limit. See 'sleep' param
+        for info on sleep vs exception for over-limit conditions.         
         """
+        if sleep is not None:
+            self.shouldSleep = sleep
+        if ignoreRateLimit is not None:
+            self.ignoreRateLimit = ignoreRateLimit
         if self.URL and url:
             log(20, "Overwriting %r with %r" % (self.URL, url))
         if url:
@@ -113,24 +134,37 @@ class Fetch4chan(object):
         else:
             raise AttributeError("No such attribute %r" % attr)
     
-    def fetchText(self, data = '', sleep = True):
+    def fetchText(self, data = '', sleep = None, ignoreRateLimit = None):
         """ Fetch all data from self.URL
-        data: A key:value mapping of post data to send with the request
-        sleep: Sleep if needed to keep above MinRequestTime. Error otherwise. 
+        @param data: A key:value mapping of post data to send with the request 
+        @param sleep: Sleep if needed to keep above MinRequestTime. If non-True
+        and we are requesting to frequently, raise Fourchapy.errors.RequestRateTooHigh.
+        If None, then use the per-object or per-class shouldSleep value. 
+        @param ignoreRateLimit: If None, use the per-object or per-class ignore
+        rate limit value. If True, only INFO-log when going over the rate limit. 
+        If False, sleep or raise an error when going over the limit. See 'sleep' param
+        for info on sleep vs exception for over-limit conditions.  
         """
         t = type(self).__name__
         if last.has_key(t):
             log(5, "Last request: %r", last[t])
             delta = datetime.datetime.now() - last[t]
             if delta < datetime.timedelta.min:
-                log(10, "Time seems to have gone backwards: %r", delta)
+                log(10, "Time seems to have gone backwards by %r. Letting request proceed as-is. ", delta)
             elif delta < self.MinRequestTime:
                 # Time is going forward & we're requesting too quickly
-                sleepTime = self.MinRequestTime - delta
-                log(10, "Going to quickly, sleeping for %r", sleepTime)
-                time.sleep(float(sleepTime.seconds))                                
+                if ignoreRateLimit or self.ignoreRateLimit:
+                    log(20, "Ignoring rate limit! We're requesting too fast. Last request was %r ago. Min normally required is %r. ", delta, self.MinRequestTime)
+                elif sleep or (sleep is None and self.shouldSleep):
+                    sleepTime = self.MinRequestTime - delta
+                    sleepTimeFloat = float((sleepTime.days * 86400) + sleepTime.seconds + (sleepTime.microseconds / 1E6))
+                    log(10, "Request rate too high. Sleeping for %r (aka %r seconds). ", sleepTime, sleepTimeFloat)
+                    # FIXME: Add in days and microseconds
+                    time.sleep(sleepTimeFloat) 
+                else:
+                    raise RequestRateTooHigh("Request rate is too high. Last request was %r ago. Min time since last request must be %r. " % (delta, self.MinRequestTime))
         else:
-            log(5, "First request")
+            log(5, "First request - No need to rate limit yet. ")
         # Record last request dt
         last[t] = datetime.datetime.now()
         
@@ -152,13 +186,23 @@ class Fetch4chan(object):
         finally:
             fHandle.close()
     
-    def fetchJSON(self, data = '', sleep = True):
+    def fetchJSON(self, data = '', sleep = None, ignoreRateLimit = None):
         """ Fetch all JSON from self.URL and return decoded
-        data: A key:value mapping of post data to send with the request
-        sleep: Sleep if needed to keep above MinRequestTime. Error otherwise. 
+        @param data: A key:value mapping of post data to send with the request 
+        @param sleep: Sleep if needed to keep above MinRequestTime. If non-True
+        and we are requesting to frequently, raise Fourchapy.errors.RequestRateTooHigh.
+        If None, then use the per-object or per-class shouldSleep value. 
+        @param ignoreRateLimit: If None, use the per-object or per-class ignore
+        rate limit value. If True, only INFO-log when going over the rate limit. 
+        If False, sleep or raise an error when going over the limit. See 'sleep' param
+        for info on sleep vs exception for over-limit conditions. 
         """
         log(10, 'Going to fetch %r as JSON', self.URL)
-        text = self.fetchText(data = data, sleep = sleep)
+        text = self.fetchText(
+                              data = data,
+                              sleep = sleep,
+                              ignoreRateLimit = ignoreRateLimit,
+                              )
         if len(text) == 0:
             raise NoDataReturnedError, "A zero byte file was returned"
         i = 1
@@ -169,5 +213,3 @@ class Fetch4chan(object):
         ret = loads(text)
         log(5, 'Decoded %r', ret)
         return ret
-
-    
