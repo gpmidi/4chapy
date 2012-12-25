@@ -6,29 +6,29 @@ A simple library for accessing 4chan's JSON API.
 Using 4chapy
 -----
 From the bottom up: 
-    # Import the library
-    from Fourchapy import BoardIndex
-    # Download a list of all boards and basic info about them (via http)
-    b = BoardIndex()
-    # Look over the first two boards only
-    for board in b.Boards[:2]:
-        # Watch out for the unicode
-        print u"Board %s (%s)" % (board.Board, board.BoardName)
-        if board.SafeForWork:
-            print "Safe for work"
-        else:
-            print "Not safe for work"
-        # Get the first two pages only
-        for page in board.getPages(maxPage = 1):
-            print "Looking at page %d of board %r" % (page.Page, board.Board)
-            # Get the first two threads only
-            for thread in page.Threads[:2]:
-                print "---- Thread %d ----" % thread.Thread
-                for post in thread.Posts:
-                    print "--- %d ---" % post.Number
-                    print "Subject: %r" % post.Subject
-                    print "Comment: %r" % post.Comment
-    
+	# Import the library
+	from Fourchapy import BoardIndex
+	# Download a list of all boards and basic info about them (via http)
+	b = BoardIndex()
+	# Look over the first two boards only
+	for board in b.Boards[:2]:
+		# Watch out for the unicode
+		print u"Board %s (%s)" % (board.Board, board.BoardName)
+		if board.SafeForWork:
+			print "Safe for work"
+		else:
+			print "Not safe for work"
+		# Get the first two pages only
+		for page in board.getPages(maxPage = 1):
+			print "Looking at page %d of board %r" % (page.Page, board.Board)
+			# Get the first two threads only
+			for thread in page.Threads[:2]:
+				print "---- Thread %d ----" % thread.Thread
+				for post in thread.Posts:
+					print "--- %d ---" % post.Number
+					print "Subject: %r" % post.Subject
+					print "Comment: %r" % post.Comment
+	
 If you know the board and thread you want: 
 	# Import the library
 	from Fourchapy import Thread
@@ -42,19 +42,19 @@ If you know the board and thread you want:
 
 Simple Example Using Only Python 2.6 Built-in Libraries
 -----
-    # Import standard libraries 
-    from urllib import urlopen
-    from json import loads
-    from pprint import pprint
-    # Open the thread's JSON data URL and read data from the connection
-    f=urlopen(url = '%s://api.4chan.org/%s/res/%d.json' % ('http', 'diy', 12345))
-    data=f.read()
-    f.close()
-    # Convert JSON into Python data structures
-    decoded=loads(data)
-    # Display the data
-    pprint(decoded)
-    		
+	# Import standard libraries 
+	from urllib import urlopen
+	from json import loads
+	from pprint import pprint
+	# Open the thread's JSON data URL and read data from the connection
+	f=urlopen(url = '%s://api.4chan.org/%s/res/%d.json' % ('http', 'diy', 12345))
+	data=f.read()
+	f.close()
+	# Convert JSON into Python data structures
+	decoded=loads(data)
+	# Display the data
+	pprint(decoded)
+			
 		
 4chapy Testing Steps
 -----
