@@ -57,15 +57,31 @@ class Fetch4chan(object):
             log(40, "No URL defined")
             raise ValueError, "No URL defined"
         self.Proxies = proxies
+        self._autoFetched = False
         
     def __getattr__(self, attr):
         if attr in self.dataAttrs:
             log(10, "Incoming request for our information via %r.%r", self, attr)
             # Set it to make sure we don't end up back here if the update method
             # doens't set it for some reason. 
-            setattr(self, attr, None)
+            for dataAttr in self.dataAttrs:
+                setattr(self, dataAttr, None)
+            
+            # Make sure we only run once
+            # FIXME: This and the fetching in general will lead to a possible race condition 
+            # in multithreaded code. 
+            if self._autoFetched:
+                log.error("We've (%r) already tried to update. We didn't succeed for some reason. Not re-running fetch. ", self)
+                raise RuntimeError("Already run self.update() once - Not running it again. ")    
+            self._autoFetched = True            
+            
+            # Get the data    
             self.update()
-            assert hasattr(self, attr)
+            
+            # Validate the update func's work
+            for dataAttr in self.dataAttrs:
+                assert hasattr(self, dataAttr)
+            # Return the data
             return getattr(self, attr, None)
         else:
             raise AttributeError("No such attribute %r" % attr)
