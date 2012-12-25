@@ -1,4 +1,4 @@
-''' Fetch 4chan API data in a 4chan-friendly fashion
+''' Provide a base class that makes it easy to add 
 Created on Sep 9, 2012
 
 @author: Paulson McIntyre (GpMidi) <paul@gpmidi.net>
