@@ -21,4 +21,4 @@ Created on Sep 9, 2012
 #===============================================================================
 
 from Thread import FourchapyThread
-
+from BoardIndex import FourchapyBoardIndex
