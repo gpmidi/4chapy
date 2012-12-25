@@ -60,11 +60,42 @@ def Thread_Main_Test(cfg, testName, testType):
     return RESULTS_PASS
 
 
+def Boards_Main_Test(cfg, testName, testType):
+    log(10, "Loading library")
+    from Fourchapy import FourchapyBoardIndex
+    
+    log(10, "Getting config")
+    # Recurse into this board+page+threads
+    pageID = cfg.getint(testName, 'pageID')
+    boardID = cfg.get(testName, 'boardID')
+    # HTTP/HTTPS
+    proto = cfg.get(testName, 'proto')
+    
+    log(10, "Creating board index object")
+    index = FourchapyBoardIndex(proto = proto)
+    
+    for board in index.Boards:
+        log(5, "Looking at board %r", board)
+        if board.BoardID == boardID:
+            log(10, "Found a board to work with")
+            for page in board.getPages(minPage = pageID, maxPage = pageID):
+                log(10, "Looking at page %r", page)
+                assert page.Page == pageID
+                for thread in page.Threads:
+                    log(10, "Found thread %r", thread)
+    
+    return RESULTS_PASS
+
+
 # Regexs used to match the section names to different tests
 TEST_NAME_REGEXS = dict(
                         ThreadMain = dict(
-                                          re = re.compile(r'^ThreadMain\-.*$'),
+                                          re = re.compile(r'^ThreadMain\-\d+$'),
                                           func = Thread_Main_Test,
+                                          ),
+                        BoardsMain = dict(
+                                          re = re.compile(r'^BoardsMain\-\d+$'),
+                                          func = Boards_Main_Test,
                                           ),
                         )
 
