@@ -12,3 +12,12 @@ threadID=296766
 boardID=diy
 threadID=296862
 
+[BoardsMain-1]
+boardID=diy
+pageID=0
+proto=http
+
+[BoardsMain-2]
+boardID=b
+pageID=2
+proto=https

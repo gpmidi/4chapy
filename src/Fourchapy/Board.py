@@ -30,8 +30,8 @@ class FourchapyBoard(object):
     """ A 4chan board
     """
     POSTOBJECTS = {
-                   'board':dict(type = str, name = "BoardID", desc = "Board ID string"),
-                   'title':dict(type = str, name = "BoardName", desc = "Human readable board name"),
+                   'board':dict(type = unicode, name = "BoardID", desc = "Board ID string"),
+                   'title':dict(type = unicode, name = "BoardName", desc = "Human readable board name"),
                    'ws_board':dict(type = bool, name = "SafeForWork", desc = "The board's contents are work safe"),
                    'per_page':dict(type = int, name = "ThreadsPerPage", desc = "The number of threads displayed per page"),
                    'pages':dict(type = int, name = "Pages", desc = "The number of pages of threads"),
@@ -116,4 +116,5 @@ class FourchapyBoard(object):
                                              pageID = pageID,
                                              proto = self.Proto,
                                              ))
+        return pages
         
