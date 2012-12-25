@@ -1,4 +1,10 @@
+FourChapy
+=====
+A simple library for accessing 4chan's JSON API.  
+
+
 Simple Example Using Python 2.6 Built-in Libraries
+-----
 	# Import standard libraries 
 	from urllib import urlopen
 	from json import loads
@@ -13,6 +19,7 @@ Simple Example Using Python 2.6 Built-in Libraries
 	pprint(decoded)
 
 Using 4chapy
+-----
 	# Import the library
 	from Fourchapy import FourchapyThread
 	# Download a thread from diy with an ID of 12345
@@ -24,6 +31,7 @@ Using 4chapy
 		print "Comment: %s"%post.Comment
 		
 4chapy Testing Steps
+-----
 	1) Copy "Test.conf.ini.sample" to "Test.conf.ini"
 	2) Edit "Test.conf.ini"
 		a) Update the threadID with the thread ID number from current threads
@@ -34,4 +42,9 @@ Using 4chapy
 	3) Run "Test.py". No arguments are required. 
 	4) If logging is set at or below INFO, a table will be displayed that shows
 		the results of the different tests.  
-	
+
+TODO
+-----
+1.  Rename all of the 'root' level classes so they don't include "Fourchappy" in the beginning.
+
+ 
