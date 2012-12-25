@@ -24,6 +24,7 @@ Created on Sep 9, 2012
 import logging
 logger = logging.getLogger("Fourchapy." + __name__)
 log = logger.log
+from ThreadPage import FourchapyThreadPage
 
 class FourchapyBoard(object):
     """ A 4chan board
@@ -97,4 +98,21 @@ class FourchapyBoard(object):
                                                           )
         return None
     
-    
+    def getPages(self, minPage = 0, maxPage = None):
+        """ Return a list of all pages that are at least minPage
+        and at most maxPage.
+        """
+        if minPage < self.getMinPage():
+            raise ValueError("Min page %r is less than the smallest allowed page value, %r" % (minPage, self.getMinPage()))
+        if maxPage and maxPage < self.getMaxPage():
+            raise ValueError("Max page %r is more than the largest allowed page value, %r" % (maxPage, self.getMaxPage()))
+        if maxPage is None:
+            maxPage = self.getMaxPage()
+        pages = []
+        for pageID in xrange(minPage, maxPage + 1):
+            pages.append(FourchapyThreadPage(
+                                             boardID = self.BoardID,
+                                             pageID = pageID,
+                                             proto = self.Proto,
+                                             ))
+        
