@@ -44,7 +44,7 @@ class FourchapyThread(Fetch4chan):
         
         Fetch4chan.__init__(self, **kw)
 
-    @FourchapyThread.addLazyDataObjDec(attrName = 'Posts')
+    @Fetch4chan.addLazyDataObjDec(attrName = 'Posts')
     def updatePostsList(self, sleep = True):
         """ Download and update local data with data from 4chan. """
         ret = []
@@ -66,7 +66,7 @@ class FourchapyThread(Fetch4chan):
         log(10, 'Found %d posts for %r', len(ret), self)
         return ret
     
-    @FourchapyThread.addLazyDataObjDec(attrName = 'PostsDict')
+    @Fetch4chan.addLazyDataObjDec(attrName = 'PostsDict')
     def updatePostsDict(self, sleep = True):
         """ Download and update local data with data from 4chan. """
         ret = {}

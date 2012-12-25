@@ -89,12 +89,11 @@ class Fetch4chan(object):
             log(10, "Incoming request for our information via %r.%r", self, attr)
             # Set it to make sure we don't end up back here if the update method
             # doens't set it for some reason. 
-            for lazyAttrs in self.lazyAttrs:
-                setattr(self, lazyAttrs, None)
+            setattr(self, attr, None)
             
-            # Make sure we only run once
-            # FIXME: This and the fetching in general will lead to a possible race condition 
-            # in multithreaded code. 
+            # Make very sure we only run once
+            # FIXME: This and the lazy fetching in general will lead to possible race conditions 
+            # when this lib is used by multi-threaded code. 
             if attr in self._autoFetched and self._autoFetched[attr]:
                 log(50, "We've (%r) already tried to update. We didn't succeed for some reason. Not re-running fetch. ", self)
                 raise RuntimeError("Already run an update for %r once on %r- Not running it again. " % (attr, self))    
@@ -102,7 +101,7 @@ class Fetch4chan(object):
             
             # Get the data    
             method = self.lazyAttrs[attr]
-            value = method()
+            value = method(self)
             log(5, "Got %r from %r on %r", value, method, self)
             
             # Don't need to do this as the decorator does it for us
