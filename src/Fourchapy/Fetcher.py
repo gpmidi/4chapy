@@ -36,9 +36,14 @@ from Errors import NoDataReturnedError
 last = {}
 
 class Fetch4chan(object):
-    # Min time between requests, in seconds
+    # Min time between requests, in seconds, per calling class
     MinRequestTime = datetime.timedelta(seconds = 1)
+    # The URL to fetch
     URL = None
+    # List out what attrs we export (and need to fetch
+    # data for)
+    dataAttrs = []
+                     
     def __init__(self, proxies = {}, url = None):
         """
         proxies=dict(http="http://www.someproxy.com:3128")
@@ -52,6 +57,26 @@ class Fetch4chan(object):
             log(40, "No URL defined")
             raise ValueError, "No URL defined"
         self.Proxies = proxies
+        
+    def __getattr__(self, attr):
+        if attr in self.dataAttrs:
+            log(10, "Incoming request for our information via %r.%r", self, attr)
+            # Set it to make sure we don't end up back here if the update method
+            # doens't set it for some reason. 
+            setattr(self, attr, None)
+            self.update()
+            assert hasattr(self, attr)
+            return getattr(self, attr, None)
+        else:
+            raise AttributeError("No such attribute %r" % attr)
+    
+    def update(self, sleep = True):
+        """ Called automatically when a attribute is accessed with a name
+        listed in self.dataAttrs and said attr doesn't exist. In other
+        words, we're called when we actually need data. 
+        @return: None
+        """        
+        raise NotImplementedError("The update method of %r has not been overwritten", self)
     
     def fetchText(self, data = '', sleep = True):
         """ Fetch all data from self.URL

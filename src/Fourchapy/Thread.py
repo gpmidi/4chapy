@@ -33,6 +33,12 @@ class FourchapyThread(Fetch4chan):
     """ Represent a thread from a 4chan board
     
     """    
+    # List out what attrs we export (and need to fetch
+    # data for)
+    dataAttrs = [
+                 'Posts',
+                 ]
+    
     def __init__(self, boardID, threadID, proto = 'http', **kw):
         self.Proto = proto
         self.Board = boardID
@@ -42,8 +48,6 @@ class FourchapyThread(Fetch4chan):
         self.URL = '%s://api.4chan.org/%s/res/%d.json' % (self.Proto, self.Board, self.Thread)
         
         Fetch4chan.__init__(self, **kw)
-        
-        self.update()
         
     def update(self, sleep = True):
         """ Download and update local data with data from 4chan. """

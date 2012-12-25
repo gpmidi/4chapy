@@ -32,6 +32,12 @@ from Errors import NoDataReturnedError, ThreadNotFoundError  # Don't import *; i
 class FourchapyThreadPage(Fetch4chan):
     """ Represent a page of threads for a given board.     
     """
+    # List out what attrs we export (and need to fetch
+    # data for)
+    dataAttrs = [
+                 'Threads',
+                 ]
+    
     def __init__(self, boardID, pageID, proto = 'http', **kw):
         self.Proto = proto
         self.Board = boardID
@@ -41,8 +47,6 @@ class FourchapyThreadPage(Fetch4chan):
         self.URL = '%s://api.4chan.org/%s/%d.json' % (self.Proto, self.Board, self.Page)
         
         Fetch4chan.__init__(self, **kw)
-        
-        self.update()
         
     def update(self, sleep = True):
         """ Download and update local data with data from 4chan. """

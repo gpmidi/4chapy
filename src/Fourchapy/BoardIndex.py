@@ -33,15 +33,19 @@ class FourchapyBoardIndex(Fetch4chan):
     """ Represent a list of all boards and info about those boards. 
     
     """    
+    # List out what attrs we export (and need to fetch
+    # data for)
+    dataAttrs = [
+                 'Boards',
+                 ]
+    
     def __init__(self, proto = 'http', **kw):
         self.Proto = proto
         
         log(10, "Creating %r", self)
         self.URL = '%s://api.4chan.org/boards.json' % self.Proto
         
-        Fetch4chan.__init__(self, **kw)
-        
-        self.update()
+        Fetch4chan.__init__(self, **kw)      
         
     def update(self, sleep = True):
         """ Download and update local data with data from 4chan. """
