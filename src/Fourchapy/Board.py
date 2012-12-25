@@ -105,7 +105,7 @@ class FourchapyBoard(object):
         """
         if minPage < self.getMinPage():
             raise ValueError("Min page %r is less than the smallest allowed page value, %r" % (minPage, self.getMinPage()))
-        if maxPage and maxPage < self.getMaxPage():
+        if maxPage and maxPage > self.getMaxPage():
             raise ValueError("Max page %r is more than the largest allowed page value, %r" % (maxPage, self.getMaxPage()))
         if maxPage is None:
             maxPage = self.getMaxPage()
