@@ -6,28 +6,28 @@ Created on Sep 9, 2012
 #===============================================================================
 #    This file is part of 4chapy. 
 #
-#    PyPWSafe is free software: you can redistribute it and/or modify
+#    4chapy is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 2 of the License, or
 #    (at your option) any later version.
 #
-#    PyPWSafe is distributed in the hope that it will be useful,
+#    4chapy is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    along with PyPWSafe.  If not, see http://www.gnu.org/licenses/old-licenses/gpl-2.0.html 
+#    along with 4chapy.  If not, see http://www.gnu.org/licenses/old-licenses/gpl-2.0.html 
 #===============================================================================
 import logging
 logging.basicConfig()
 
 # Default logging level.  
 DEFAULT_LOGGING_LEVEL = 1
-#DEFAULT_LOGGING_LEVEL = logging.DEBUG
-#DEFAULT_LOGGING_LEVEL = logging.INFO
-#DEFAULT_LOGGING_LEVEL = logging.WARN
-#DEFAULT_LOGGING_LEVEL = logging.ERROR
+# DEFAULT_LOGGING_LEVEL = logging.DEBUG
+# DEFAULT_LOGGING_LEVEL = logging.INFO
+# DEFAULT_LOGGING_LEVEL = logging.WARN
+# DEFAULT_LOGGING_LEVEL = logging.ERROR
 
 # Config file telling us what tests to run and what data to use with the tests
 DEFAULT_CONFIG_FILE = 'test.conf.ini'
