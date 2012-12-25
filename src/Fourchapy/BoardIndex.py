@@ -51,7 +51,7 @@ class FourchapyBoardIndex(Fetch4chan):
         # except NoDataReturnedError:
         #    raise NoDataReturnedError, "Failed to read board data from the 4chan servers"
         
-        for boardData in json['board']:
+        for boardData in json['boards']:
             self.Boards.append(FourchapyBoard(
                                              boardData = boardData,
                                              proto = self.Proto,
