@@ -120,7 +120,7 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
             self.assertTrue(isinstance(board.Pages, int), 'Pages should be int based')
             
             self.assertTrue(hasattr(board, 'SafeForWork'), 'SafeForWork should be defined')
-            self.assertTrue(isinstance(board.SafeForWork, bool), 'SafeForWork should be bool based')
+            self.assertTrue(isinstance(board.SafeForWork, bool) or board.SafeForWork is None, 'SafeForWork should be bool based')
             
             self.assertTrue(hasattr(board, 'BoardName'), 'BoardName should be defined')
             self.assertTrue(isinstance(board.BoardName, unicode), 'BoardName should be unicode based')

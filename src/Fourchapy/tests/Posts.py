@@ -27,7 +27,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         # Bulk attr tests - Make sure things don't change by accident
                         # Attr tests for PostObj.Sticky
                         self.assertTrue(hasattr(post, 'Sticky'), 'Sticky should be defined')
-                        self.assertTrue(isinstance(post.Sticky, bool), 'Sticky should be bool based')
+                        self.assertTrue(isinstance(post.Sticky, bool) or post.Sticky is None, 'Sticky should be bool based')
                         
                         # Attr tests for PostObj.CustomSpoiler
                         self.assertTrue(hasattr(post, 'CustomSpoiler'), 'CustomSpoiler should be defined')
@@ -63,7 +63,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.Closed
                         self.assertTrue(hasattr(post, 'Closed'), 'Closed should be defined')
-                        self.assertTrue(isinstance(post.Closed, bool), 'Closed should be bool based')
+                        self.assertTrue(isinstance(post.Closed, bool) or post.Closed is None, 'Closed should be bool based')
                         
                         # Attr tests for PostObj.CountryName
                         self.assertTrue(hasattr(post, 'CountryName'), 'CountryName should be defined')
@@ -83,7 +83,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.FileDeleted
                         self.assertTrue(hasattr(post, 'FileDeleted'), 'FileDeleted should be defined')
-                        self.assertTrue(isinstance(post.FileDeleted, bool), 'FileDeleted should be bool based')
+                        self.assertTrue(isinstance(post.FileDeleted, bool) or post.FileDeleted is None, 'FileDeleted should be bool based')
                         
                         # Attr tests for PostObj.DateTime
                         self.assertTrue(hasattr(post, 'DateTime'), 'DateTime should be defined')
@@ -95,7 +95,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.SpoilerImage
                         self.assertTrue(hasattr(post, 'SpoilerImage'), 'SpoilerImage should be defined')
-                        self.assertTrue(isinstance(post.SpoilerImage, bool), 'SpoilerImage should be bool based')
+                        self.assertTrue(isinstance(post.SpoilerImage, bool) or post.SpoilerImage is None, 'SpoilerImage should be bool based')
                         
                         # Attr tests for PostObj.Name
                         self.assertTrue(hasattr(post, 'Name'), 'Name should be defined')
