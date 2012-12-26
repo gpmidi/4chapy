@@ -26,9 +26,8 @@ logger = logging.getLogger("Fourchapy." + __name__)
 log = logger.log
 
 from ThreadPage import FourchapyThreadPage
-from Fetcher import Fetch4chan
 
-class FourchapyBoard(Fetch4chan):
+class FourchapyBoard(object):
     """ A 4chan board
     """
     POSTOBJECTS = {
@@ -39,10 +38,10 @@ class FourchapyBoard(Fetch4chan):
                    'pages':dict(type = int, name = "Pages", desc = "The number of pages of threads"),
                    }
     
-    def __init__(self, boardData = None, proto = 'http', **kw):
+    def __init__(self, boardData = None, proto = 'http', proxies = {}):
         self.Proto = proto
         self._rawData = boardData
-        Fetch4chan.__init__(self, **kw)
+        self.Proxies = proxies
         
         for code, info in self.POSTOBJECTS.items():
             if boardData.has_key(code):

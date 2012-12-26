@@ -60,12 +60,12 @@ class FourchapyPost(Fetch4chan):
                  'custom_spoiler':dict(type = int, name = "CustomSpoiler", desc = ""),
                  }
     
-    def __init__(self, board, postData = None, proto = 'http', index = 0, **kw):
+    def __init__(self, board, postData = None, proto = 'http', index = 0, proxies = {}):
         self.Board = board
         self.Proto = proto
         self._rawData = postData
         self.Index = index
-        Fetch4chan.__init__(self, **kw)
+        self.Proxies = proxies
         
         for code, info in self.POSTOBJECTS.items():
             if postData.has_key(code):
