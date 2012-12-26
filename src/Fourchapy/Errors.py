@@ -38,7 +38,10 @@ class NoDataReturnedError(InvalidDataReturnedError):
     is dead/deleted. 
     """
 
-class ThreadNotFoundError(ValueError):
+class Fetch404Error(ValueError):
+    """ Got a 404 when trying to load a URL """
+
+class ThreadNotFoundError(Fetch404Error):
     """ The requested thread doens't exist anymore. 
     """
 

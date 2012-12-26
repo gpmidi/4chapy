@@ -30,7 +30,7 @@ import datetime
 from json import loads
 import time
 
-from Errors import NoDataReturnedError, RequestRateTooHigh, InvalidDataReturnedError
+from Errors import NoDataReturnedError, RequestRateTooHigh, InvalidDataReturnedError, Fetch404Error
 
 # Keep track of last request
 last = {}
@@ -195,6 +195,8 @@ class Fetch4chan(object):
         finally:
             fHandle.close()
     
+    RE_404_MATCH = r'''^\s*<html>\s*<head>\s*<title>404 Not Found</title>'''
+    
     def fetchJSON(self, data = '', sleep = None, ignoreRateLimit = None):
         """ Fetch all JSON from self.URL and return decoded
         @param data: A key:value mapping of post data to send with the request 
@@ -222,7 +224,15 @@ class Fetch4chan(object):
         try:
             ret = loads(text)
         except ValueError, e:
-            log(30, 'Failed to decode JSON with %r', e)
+            log(10, 'Failed to decode JSON with %r', e)
+            if '404 Not Found' in text[:200]:
+                # May have a 404 - Need to validate
+                import re
+                if re.match(self.RE_404_MATCH, text, re.MULTILINE | re.DOTALL):
+                    log(30, 'Got a 404 error from %r', self.URL)
+                    raise Fetch404Error('Got a 404 error from %r' % self.URL)
+                else:
+                    log(40, "Didn't get valid JSON but isn't a 404 - Something's amiss with %r", self.URL)
             log(10, "-"*10 + " Begin Data " + "-"*10)
             for line in text.splitlines():
                 log(10, "Line: %r" % line)
