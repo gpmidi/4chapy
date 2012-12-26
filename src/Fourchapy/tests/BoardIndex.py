@@ -67,6 +67,12 @@ class BoardConfigBasedTests(ConfigBasedTests):
                                                    default = 2,
                                                    vtype = 'int',
                                                    )
+        self.recursionMaxThreads = self._get_option(
+                                                   section = 'RecursiveOptions',
+                                                   option = 'MaxThreads',
+                                                   default = 10,
+                                                   vtype = 'int',
+                                                   )
         self.recursionMaxPosts = self._get_option(
                                                    section = 'RecursiveOptions',
                                                    option = 'MaxPosts',

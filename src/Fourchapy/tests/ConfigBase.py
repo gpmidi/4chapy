@@ -40,14 +40,26 @@ class ConfigBasedTests(unittest.TestCase):
         self.log.setLevel(self.cfg.getint('Global', 'loggingLevel'))
         # Global config - proxies
         self.proxy = {}
-        if self.cfg.has_option('Global', 'proxy_http'):
-            self.proxy['http'] = self.cfg.get('Global', 'proxy_http')
-        if self.cfg.has_option('Global', 'proxy_https'):
-            self.proxy['https'] = self.cfg.get('Global', 'proxy_https')
+        self.proxy['http'] = self._get_option(
+                                              section = 'Global',
+                                              option = 'proxy_http',
+                                              default = None,
+                                              vtype = 'str',
+                                              )
+        self.proxy['https'] = self._get_option(
+                                              section = 'Global',
+                                              option = 'proxy_https',
+                                              default = None,
+                                              vtype = 'str',
+                                              )
+        for k, v in self.proxy:
+            if v is None:
+                del self.proxy[k]
         self.log.debug("Set proxy to %r", self.proxy)
         
     def _get_option(self, section, option, default, vtype = 'str'):
         """ Get the option and set it if it doesn't exist """
+        self.log.debug("Going to get/set %r.%r of type %r, default %r", section, option, vtype, default)
         if not self.cfg.has_section(section):
             self.cfg.add_section(section)
             self.log.debug("Added section %r to config", section)

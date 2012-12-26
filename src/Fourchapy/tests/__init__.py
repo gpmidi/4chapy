@@ -11,6 +11,7 @@ import unittest
 
 from Fourchapy.tests.BoardIndex import *
 from Fourchapy.tests.BoardPages import *
+from Fourchapy.tests.Posts import *
 
 if __name__ == "__main__":
     unittest.main()
