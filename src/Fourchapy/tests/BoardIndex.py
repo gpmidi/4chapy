@@ -140,10 +140,11 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
             boardPages = board.getPages()
             self.assertTrue(len(boardPages) > 0, "Should have at least one page")
             totalItems = 0
-            for page in boardPages[:self.recursionMaxPages]:
-                totalItems += len(page.Threads)
-            self.assertTrue(totalItems <= board.TotalThreads(), "There are more threads listed than boardObj.TotalThreads() says should exist")
-            self.assertTrue(totalItems >= (board.getMaxPage() - 1) * board.ThreadsPerPage)
+#            Disabling this as it'll generate a lot of requests
+#            for page in boardPages:
+#                totalItems += len(page.Threads)
+#            self.assertTrue(totalItems <= board.TotalThreads(), "There are more threads listed than boardObj.TotalThreads() says should exist")
+#            self.assertTrue(totalItems >= (board.getMaxPage() - 1) * board.ThreadsPerPage)
             
             
             
