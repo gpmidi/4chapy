@@ -10,7 +10,7 @@ class BoardIndexFetchSequence(ConfigBasedTests):
     
     def testBoardIndexHttpListFirst(self):
         from Fourchapy import BoardIndex
-        i = BoardIndex(proto = 'http', proxy = self.proxy)
+        i = BoardIndex(proto = 'http', proxies = self.proxy)
         self.assertFalse('Boards' in i.__dict__, "BoardIndex.Boards shouldn't exist")
         self.assertFalse('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict shouldn't exist")
         boardsList = i.Boards
@@ -22,16 +22,16 @@ class BoardIndexFetchSequence(ConfigBasedTests):
         
     def testBoardIndexHttpDictFirst(self):
         from Fourchapy import BoardIndex
-        i = BoardIndex(proto = 'http', proxy = self.proxy)
+        i = BoardIndex(proto = 'http', proxies = self.proxy)
         self.assertFalse('Boards' in i.__dict__, "BoardIndex.Boards shouldn't exist")
         self.assertFalse('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict shouldn't exist")
-        boardsDict = i.Boards
+        boardsDict = i.BoardsDict
         self.assertTrue('Boards' in i.__dict__, "BoardIndex.Boards should have been auto created")
         self.assertTrue('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict should have been auto created")
         
     def testBoardIndexHttpsListFirst(self):
         from Fourchapy import BoardIndex
-        i = BoardIndex(proto = 'https', proxy = self.proxy)
+        i = BoardIndex(proto = 'https', proxies = self.proxy)
         self.assertFalse('Boards' in i.__dict__, "BoardIndex.Boards shouldn't exist")
         self.assertFalse('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict shouldn't exist")
         boardsList = i.Boards
@@ -43,10 +43,10 @@ class BoardIndexFetchSequence(ConfigBasedTests):
         
     def testBoardIndexHttpsDictFirst(self):
         from Fourchapy import BoardIndex
-        i = BoardIndex(proto = 'https', proxy = self.proxy)
+        i = BoardIndex(proto = 'https', proxies = self.proxy)
         self.assertFalse('Boards' in i.__dict__, "BoardIndex.Boards shouldn't exist")
         self.assertFalse('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict shouldn't exist")
-        boardsDict = i.Boards
+        boardsDict = i.BoardsDict
         self.assertTrue('Boards' in i.__dict__, "BoardIndex.Boards should have been auto created")
         self.assertTrue('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict should have been auto created")
 
@@ -81,7 +81,7 @@ class BoardConfigBasedTests(ConfigBasedTests):
                                                    )
         
         from Fourchapy import BoardIndex
-        self.index = BoardIndex(proto = 'http', proxy = self.proxy)
+        self.index = BoardIndex(proto = 'http', proxies = self.proxy)
         # Run the fetches now rather than wait
         boardList = self.index.Boards
         boardDict = self.index.BoardsDict
