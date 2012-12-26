@@ -73,13 +73,10 @@ Simple Example Using Only Python 2.6 Built-in Libraries
 4chapy Testing Steps
 -----
 1.  Copy "Test.conf.ini.sample" to "Test.conf.ini"
-2.  Edit "Test.conf.ini"
-	a) Update the threadID with the thread ID number from current threads
-	b) Optionally, change what board is being used
-	c) Optionally, change the loggingLevel. The logging module's DEBUG, INFO, 
-		and other level variables will give the meaning of different values. 
-	d) Optionally, Add additional sections with other threads to repeat a test.  
-3.  Run "Test.py". No arguments are required. 
-4.  If logging is set at or below INFO, a table will be displayed that shows
-	the results of the different tests.  
-5.  Reimplement this as unit tests. 
+2.  Edit "Test.conf.ini" and validate that the logging level is 
+acceptable. 1=Super Debug, 10=Debug, etc
+3.  Edit "Test.conf.ini" and validate that the four RecursiveOptions are 
+set low. The number of HTTP(S) requests made to 4chan's servers PER
+TEST is the first three values multiplied by each other. 
+4.  Run "/src/Fourchapy/tests/__init__.py" with no args. The script's working
+directory should be the same folder where "Test.conf.ini" is located. 
