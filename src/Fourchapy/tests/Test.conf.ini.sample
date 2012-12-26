@@ -12,7 +12,7 @@ loggingLevel=10
 # recursive operations to find valid boards->pages->threads->etc
 [RecursiveOptions]
 MaxBoards=2
-MaxPages=2
-MaxThreads=5
+MaxPages=1
+MaxThreads=2
 MaxPosts=5
 
