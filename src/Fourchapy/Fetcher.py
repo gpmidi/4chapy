@@ -165,18 +165,24 @@ class Fetch4chan(object):
                     raise RequestRateTooHigh("Request rate is too high. Last request was %r ago. Min time since last request must be %r. " % (delta, self.MinRequestTime))
         else:
             log(5, "First request - No need to rate limit yet. ")
+        
         # Record last request dt
         last[t] = datetime.datetime.now()
-        
-        try:
-            log(5, "Going to open %r", self.URL)
-            if data == '':
-                data = None
-            fHandle = urlopen(url = self.URL, data = data, proxies = self.Proxies)
-            log(10, "Successfully opened url: %r", fHandle)
-        except Exception, e:
-            log(40, "Failed to open %r with %r", self.URL, e)
-            raise e
+                
+        if data is None:
+            data = ''
+        elif isinstance(data, dict):
+            for k, v in data.items():
+                if k is None or v is None:
+                    del data[k]
+        elif isinstance(data, str):
+            pass
+        else:
+            log.warn("Unknown data value type. Got %r. ", data)
+        log(50, "Going to open %r with data %r", self.URL, data)
+        fHandle = urlopen(url = self.URL, data = data, proxies = self.Proxies)
+        log(10, "Successfully opened url: %r", fHandle)
+            
         try:
             log(5, "Starting to read data")
             text = fHandle.read()
@@ -210,6 +216,13 @@ class Fetch4chan(object):
             log(5, 'Fetched data (line %05d): %r' % (i, text[(i - 1) * 50:i * 50]))
             i += 1
         log(10, "Translating JSON into objects")            
-        ret = loads(text)
+        try:
+            ret = loads(text)
+        except ValueError, e:
+            log(30, 'Failed to decode JSON with %r', e)
+            log(10, "-"*10 + "Begin Data" + "-"*10)
+            for line in text.splitlines():
+                log(10, "Line: %r" % line)
+            log(10, "-"*10 + "End Data" + "-"*10)
         log(5, 'Decoded %r', ret)
         return ret
