@@ -16,7 +16,7 @@ class BoardIndexFetchSequence(ConfigBasedTests):
         boardsList = i.Boards
         self.assertTrue('Boards' in i.__dict__, "BoardIndex.Boards should have been auto created")
         self.assertFalse('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict shouldn't exist")
-        boardsDict = i.Boards
+        boardsDict = i.BoardsDict
         self.assertTrue('Boards' in i.__dict__, "BoardIndex.Boards should have been auto created")
         self.assertTrue('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict should have been auto created")
         
@@ -37,7 +37,7 @@ class BoardIndexFetchSequence(ConfigBasedTests):
         boardsList = i.Boards
         self.assertTrue('Boards' in i.__dict__, "BoardIndex.Boards should have been auto created")
         self.assertFalse('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict shouldn't exist")
-        boardsDict = i.Boards
+        boardsDict = i.BoardsDict
         self.assertTrue('Boards' in i.__dict__, "BoardIndex.Boards should have been auto created")
         self.assertTrue('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict should have been auto created")
         
