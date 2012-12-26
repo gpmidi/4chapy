@@ -98,14 +98,14 @@ class FourchapyBoard(object):
         @param page: int 0 to self.Pages-1
         """
         page = int(page)
-        if hasattr(self, 'Pages') and hasattr(self, 'Board'):
-            if page >= 0 and page < self.Pages:
-                return "%s://api.4chan.org/%s/%d.json" % (
-                                                          self.Proto,
-                                                          self.Board,
-                                                          page,
-                                                          )
-        return None
+        if page >= 0 and page < self.Pages:
+            return "%s://api.4chan.org/%s/%d.json" % (
+                                                      self.Proto,
+                                                      self.Board,
+                                                      page,
+                                                      )
+        else:
+            raise ValueError("Page value isn't valid for /%r/" % self.Board)
     
     def getPages(self, minPage = 0, maxPage = None):
         """ Return a list of all pages that are at least minPage
