@@ -1,4 +1,4 @@
-FourChapy
+4chapy
 =====
 A simple library for accessing 4chan's JSON API.  
 
