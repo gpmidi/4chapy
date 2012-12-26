@@ -45,12 +45,14 @@ class ConfigBasedTests(unittest.TestCase):
                                               default = None,
                                               vtype = 'str',
                                               )
-        self.proxy['https'] = self._get_option(
-                                              section = 'Global',
-                                              option = 'proxy_https',
-                                              default = None,
-                                              vtype = 'str',
-                                              )
+# Doesn't actually work atm - urllib doesn't support using
+# https and a proxy at the same time. 
+#        self.proxy['https'] = self._get_option(
+#                                              section = 'Global',
+#                                              option = 'proxy_https',
+#                                              default = None,
+#                                              vtype = 'str',
+#                                              )
         for k, v in self.proxy.items():
             if v is None:
                 del self.proxy[k]

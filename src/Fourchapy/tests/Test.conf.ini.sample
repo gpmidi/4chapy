@@ -4,6 +4,8 @@
 # Valid: 1-50
 loggingLevel=10
 # proxy_http=http://someserver.local:3128
+# Doesn't actually work atm - urllib doesn't support using
+# https and a proxy at the same time. 
 # proxy_https=http://someserver.local:3128
 
 # The max number of boards/pages/posts/etc to download when doing 
