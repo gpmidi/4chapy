@@ -110,20 +110,20 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
             self.assertEqual(boardID, board.Board, "Board ID str should match boardObj.Board")
             self.assertTrue(len(boardID) <= 5, "Board ID should be short")
             self.assertTrue(hasattr(board, 'Board'), 'Board should be defined')
-            self.assertTrue(isinstance(board.Board, unicode), 'Board should be unicode based')
+            self.assertTrue(isinstance(board.Board, unicode) or board.Board is None, 'Board should be unicode based')
             
             # Other values
             self.assertTrue(hasattr(board, 'ThreadsPerPage'), 'ThreadsPerPage should be defined')
-            self.assertTrue(isinstance(board.ThreadsPerPage, int), 'ThreadsPerPage should be int based')
+            self.assertTrue(isinstance(board.ThreadsPerPage, int) or board.ThreadsPerPage is None, 'ThreadsPerPage should be int based')
             
             self.assertTrue(hasattr(board, 'Pages'), 'Pages should be defined')
-            self.assertTrue(isinstance(board.Pages, int), 'Pages should be int based')
+            self.assertTrue(isinstance(board.Pages, int) or board.Pages is None, 'Pages should be int based')
             
             self.assertTrue(hasattr(board, 'SafeForWork'), 'SafeForWork should be defined')
             self.assertTrue(isinstance(board.SafeForWork, bool) or board.SafeForWork is None, 'SafeForWork should be bool based')
             
             self.assertTrue(hasattr(board, 'BoardName'), 'BoardName should be defined')
-            self.assertTrue(isinstance(board.BoardName, unicode), 'BoardName should be unicode based')
+            self.assertTrue(isinstance(board.BoardName, unicode) or board.BoardName is None, 'BoardName should be unicode based')
             
             self.assertEqual(board.getMinPage(), 0, 'Min page should always be zero')
             self.assertTrue(board.getMaxPage() >= 1, 'Max page should be at least 1')

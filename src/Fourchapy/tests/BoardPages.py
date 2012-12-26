@@ -43,7 +43,7 @@ class PageInitialTestSequence(BoardPageConfigBasedTests):
             for pageNumber, page in info['pages'].items():
                 self.log.log(5, "Looking at page %r", page)
                 # Attributes tests
-                self.assertTrue(isinstance(page.Page, int), "The page number should be an int")
+                self.assertTrue(isinstance(page.Page, int) or page.Page is None, "The page number should be an int")
                 self.assertTrue(isinstance(page.Board, (str, unicode)), "The board ID string should be a str")
                 self.assertTrue(isinstance(page.Proto, (str, unicode)), "The protocol should be a str")
                 self.assertTrue(page.Proto.lower() in ['http', 'https'], "Proto %r isn't http or https" % page.Proto)
@@ -79,8 +79,8 @@ class ThreadTestSequence(BoardPageConfigBasedTests):
                 self.log.log(5, "Looking at page %r", page)
                 for threadID, thread in page.ThreadsDict.items()[:self.recursionMaxThreads]:
                     self.log.log(4, "Looking at thread %r", thread)
-                    self.assertTrue(isinstance(threadID, int), "The thread ID number should be an int")
-                    self.assertTrue(isinstance(thread.Thread, int), "The thread ID number should be a int")
+                    self.assertTrue(isinstance(threadID, int) or threadID is None, "The thread ID number should be an int")
+                    self.assertTrue(isinstance(thread.Thread, int) or thread.Thread is None, "The thread ID number should be a int")
                     self.assertTrue(isinstance(thread.Board, (str, unicode)), "The board ID string should be a str")
                     self.assertTrue(isinstance(thread.Proto, (str, unicode)), "The protocol should be a str")
                     self.assertTrue(thread.Proto.lower() in ['http', 'https'], "Proto %r isn't http or https" % thread.Proto)
