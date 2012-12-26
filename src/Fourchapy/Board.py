@@ -121,6 +121,7 @@ class FourchapyBoard(object):
                                              boardID = self.Board,
                                              pageID = pageID,
                                              proto = self.Proto,
+                                             proxies = self.Proxies,
                                              ))
         return pages
         

@@ -57,6 +57,7 @@ class FourchapyThreadPage(Fetch4chan):
                                           boardID = self.Board,
                                           threadID = int(data['posts'][0]['no']),
                                           proto = self.Proto,
+                                          proxies = self.Proxies,
                                           )) 
         log(10, 'Found %d threads for %r', len(threads), self)
         return threads

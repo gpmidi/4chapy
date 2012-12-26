@@ -54,6 +54,7 @@ class FourchapyBoardIndex(Fetch4chan):
             board = FourchapyBoard(
                                  boardData = boardData,
                                  proto = self.Proto,
+                                 proxies = self.Proxies,
                                  )
             boards.append(board)
             log(5, "Created board %r", board)

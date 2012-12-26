@@ -60,6 +60,7 @@ class FourchapyThread(Fetch4chan):
                                      postData = postData,
                                      proto = self.Proto,
                                      index = index,
+                                     proxies = self.Proxies,
                                      ))
             index += 1
             
