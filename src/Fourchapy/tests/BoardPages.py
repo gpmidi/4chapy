@@ -60,7 +60,7 @@ class ThreadTestSequence(BoardPageConfigBasedTests):
                     # Thread list for page fetching test
                     self.assertFalse('Posts' in thread.__dict__, "Posts shouldn't exist yet in thread %r" % thread)
                     posts = thread.Posts
-                    self.assertTrue('Posts' in page.__dict__, "Posts should have been auto created in %r" % thread)
+                    self.assertTrue('Posts' in thread.__dict__, "Posts should have been auto created in %r" % thread)
 
     def testThreadFetchDict(self):
         for boardID, info in self.boardPages.items():
@@ -71,7 +71,7 @@ class ThreadTestSequence(BoardPageConfigBasedTests):
                     # Thread list for page fetching test
                     self.assertFalse('PostsDict' in thread.__dict__, "PostsDict shouldn't exist yet in thread %r" % thread)
                     posts = thread.PostsDict
-                    self.assertTrue('PostsDict' in page.__dict__, "PostsDict should have been auto created in %r" % thread)
+                    self.assertTrue('PostsDict' in thread.__dict__, "PostsDict should have been auto created in %r" % thread)
 
     def testThreadObj(self):
         for boardID, info in self.boardPages.items():
