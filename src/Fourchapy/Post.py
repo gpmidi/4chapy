@@ -25,7 +25,9 @@ import logging
 logger = logging.getLogger("Fourchapy." + __name__)
 log = logger.log
 
-class FourchapyPost(object):
+from Fetcher import Fetch4chan
+
+class FourchapyPost(Fetch4chan):
     """ A 4chan post
     """
     POSTOBJECTS = {
@@ -58,11 +60,12 @@ class FourchapyPost(object):
                  'custom_spoiler':dict(type = int, name = "CustomSpoiler", desc = ""),
                  }
     
-    def __init__(self, board, postData = None, proto = 'http', index = 0):
+    def __init__(self, board, postData = None, proto = 'http', index = 0, **kw):
         self.Board = board
         self.Proto = proto
         self._rawData = postData
         self.Index = index
+        Fetch4chan.__init__(self, **kw)
         
         for code, info in self.POSTOBJECTS.items():
             if postData.has_key(code):
