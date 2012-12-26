@@ -18,7 +18,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                     for postID, post in thread.PostsDict.items()[:self.recursionMaxPosts]:
                         self.log.log(3, "Looking at post %r", post)
                         # Basic attributes tests
-                        self.assertTrue(isinstance(post.Index, int) or post.Index is None, "The post index should be an int")
+                        self.assertTrue(isinstance(post.Index, (int, long)) or post.Index is None, "The post index should be an int")
                         self.assertTrue(isinstance(post.Board, (str, unicode)), "The board ID string should be a str")
                         self.assertTrue(isinstance(post.Proto, (str, unicode)), "The protocol should be a str")
                         self.assertTrue(post.Proto.lower() in ['http', 'https'], "Proto %r isn't http or https" % post.Proto)
@@ -31,7 +31,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.CustomSpoiler
                         self.assertTrue(hasattr(post, 'CustomSpoiler'), 'CustomSpoiler should be defined')
-                        self.assertTrue(isinstance(post.CustomSpoiler, int) or post.CustomSpoiler is None, 'CustomSpoiler should be int based')
+                        self.assertTrue(isinstance(post.CustomSpoiler, (int, long)) or post.CustomSpoiler is None, 'CustomSpoiler should be int based')
                         
                         # Attr tests for PostObj.UserType
                         self.assertTrue(hasattr(post, 'UserType'), 'UserType should be defined')
@@ -43,7 +43,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.Number
                         self.assertTrue(hasattr(post, 'Number'), 'Number should be defined')
-                        self.assertTrue(isinstance(post.Number, int) or post.Number is None, 'Number should be int based')
+                        self.assertTrue(isinstance(post.Number, (int, long)) or post.Number is None, 'Number should be int based')
                         
                         # Attr tests for PostObj.Tripcode
                         self.assertTrue(hasattr(post, 'Tripcode'), 'Tripcode should be defined')
@@ -51,7 +51,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.FileSize
                         self.assertTrue(hasattr(post, 'FileSize'), 'FileSize should be defined')
-                        self.assertTrue(isinstance(post.FileSize, int) or post.FileSize is None, 'FileSize should be int based')
+                        self.assertTrue(isinstance(post.FileSize, (int, long)) or post.FileSize is None, 'FileSize should be int based')
                         
                         # Attr tests for PostObj.OrgFilename
                         self.assertTrue(hasattr(post, 'OrgFilename'), 'OrgFilename should be defined')
@@ -59,7 +59,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.RenamedFilename
                         self.assertTrue(hasattr(post, 'RenamedFilename'), 'RenamedFilename should be defined')
-                        self.assertTrue(isinstance(post.RenamedFilename, int) or post.RenamedFilename is None, 'RenamedFilename should be int based')
+                        self.assertTrue(isinstance(post.RenamedFilename, (int, long)) or post.RenamedFilename is None, 'RenamedFilename should be int based. Got %r. ' % post.RenamedFilename)
                         
                         # Attr tests for PostObj.Closed
                         self.assertTrue(hasattr(post, 'Closed'), 'Closed should be defined')
@@ -71,7 +71,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.ThumbnailHeight
                         self.assertTrue(hasattr(post, 'ThumbnailHeight'), 'ThumbnailHeight should be defined')
-                        self.assertTrue(isinstance(post.ThumbnailHeight, int) or post.ThumbnailHeight is None, 'ThumbnailHeight should be int based')
+                        self.assertTrue(isinstance(post.ThumbnailHeight, (int, long)) or post.ThumbnailHeight is None, 'ThumbnailHeight should be int based')
                         
                         # Attr tests for PostObj.Email
                         self.assertTrue(hasattr(post, 'Email'), 'Email should be defined')
@@ -79,7 +79,7 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.UnixDateTime
                         self.assertTrue(hasattr(post, 'UnixDateTime'), 'UnixDateTime should be defined')
-                        self.assertTrue(isinstance(post.UnixDateTime, int) or post.UnixDateTime is None, 'UnixDateTime should be int based')
+                        self.assertTrue(isinstance(post.UnixDateTime, (int, long)) or post.UnixDateTime is None, 'UnixDateTime should be int based')
                         
                         # Attr tests for PostObj.FileDeleted
                         self.assertTrue(hasattr(post, 'FileDeleted'), 'FileDeleted should be defined')
@@ -103,11 +103,11 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.ThumbnailWidth
                         self.assertTrue(hasattr(post, 'ThumbnailWidth'), 'ThumbnailWidth should be defined')
-                        self.assertTrue(isinstance(post.ThumbnailWidth, int) or post.ThumbnailWidth is None, 'ThumbnailWidth should be int based')
+                        self.assertTrue(isinstance(post.ThumbnailWidth, (int, long)) or post.ThumbnailWidth is None, 'ThumbnailWidth should be int based')
                         
                         # Attr tests for PostObj.ImageHeight
                         self.assertTrue(hasattr(post, 'ImageHeight'), 'ImageHeight should be defined')
-                        self.assertTrue(isinstance(post.ImageHeight, int) or post.ImageHeight is None, 'ImageHeight should be int based')
+                        self.assertTrue(isinstance(post.ImageHeight, (int, long)) or post.ImageHeight is None, 'ImageHeight should be int based')
                         
                         # Attr tests for PostObj.FileExtension
                         self.assertTrue(hasattr(post, 'FileExtension'), 'FileExtension should be defined')
@@ -115,11 +115,11 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         
                         # Attr tests for PostObj.ReplyTo
                         self.assertTrue(hasattr(post, 'ReplyTo'), 'ReplyTo should be defined')
-                        self.assertTrue(isinstance(post.ReplyTo, int) or post.ReplyTo is None, 'ReplyTo should be int based')
+                        self.assertTrue(isinstance(post.ReplyTo, (int, long)) or post.ReplyTo is None, 'ReplyTo should be int based')
                         
                         # Attr tests for PostObj.ImageWidth
                         self.assertTrue(hasattr(post, 'ImageWidth'), 'ImageWidth should be defined')
-                        self.assertTrue(isinstance(post.ImageWidth, int) or post.ImageWidth is None, 'ImageWidth should be int based')
+                        self.assertTrue(isinstance(post.ImageWidth, (int, long)) or post.ImageWidth is None, 'ImageWidth should be int based')
                         
                         # Attr tests for PostObj.CountryCode
                         self.assertTrue(hasattr(post, 'CountryCode'), 'CountryCode should be defined')

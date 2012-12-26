@@ -114,10 +114,10 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
             
             # Other values
             self.assertTrue(hasattr(board, 'ThreadsPerPage'), 'ThreadsPerPage should be defined')
-            self.assertTrue(isinstance(board.ThreadsPerPage, int) or board.ThreadsPerPage is None, 'ThreadsPerPage should be int based')
+            self.assertTrue(isinstance(board.ThreadsPerPage, (int, long)) or board.ThreadsPerPage is None, 'ThreadsPerPage should be int based')
             
             self.assertTrue(hasattr(board, 'Pages'), 'Pages should be defined')
-            self.assertTrue(isinstance(board.Pages, int) or board.Pages is None, 'Pages should be int based')
+            self.assertTrue(isinstance(board.Pages, (int, long)) or board.Pages is None, 'Pages should be int based')
             
             self.assertTrue(hasattr(board, 'SafeForWork'), 'SafeForWork should be defined')
             self.assertTrue(isinstance(board.SafeForWork, bool) or board.SafeForWork is None, 'SafeForWork should be bool based')
