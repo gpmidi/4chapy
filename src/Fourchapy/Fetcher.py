@@ -30,7 +30,7 @@ import datetime
 from json import loads
 import time
 
-from Errors import NoDataReturnedError, RequestRateTooHigh
+from Errors import NoDataReturnedError, RequestRateTooHigh, InvalidDataReturnedError
 
 # Keep track of last request
 last = {}
@@ -179,8 +179,11 @@ class Fetch4chan(object):
             pass
         else:
             log.warn("Unknown data value type. Got %r. ", data)
-        log(50, "Going to open %r with data %r", self.URL, data)
-        fHandle = urlopen(url = self.URL, data = data, proxies = self.Proxies)
+        log(10, "Going to open %r with data %r", self.URL, data)
+        if data:
+            fHandle = urlopen(url = self.URL, data = data, proxies = self.Proxies)
+        else:
+            fHandle = urlopen(url = self.URL, proxies = self.Proxies)
         log(10, "Successfully opened url: %r", fHandle)
             
         try:
@@ -220,9 +223,10 @@ class Fetch4chan(object):
             ret = loads(text)
         except ValueError, e:
             log(30, 'Failed to decode JSON with %r', e)
-            log(10, "-"*10 + "Begin Data" + "-"*10)
+            log(10, "-"*10 + " Begin Data " + "-"*10)
             for line in text.splitlines():
                 log(10, "Line: %r" % line)
             log(10, "-"*10 + "End Data" + "-"*10)
+            raise InvalidDataReturnedError("Data from 4chan wasn't JSON")
         log(5, 'Decoded %r', ret)
         return ret

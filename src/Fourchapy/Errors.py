@@ -30,7 +30,10 @@ import datetime
 from json import loads
 import time
 
-class NoDataReturnedError(ValueError):
+class InvalidDataReturnedError(ValueError):
+    """ The data from 4chan's servers isn't valid """
+
+class NoDataReturnedError(InvalidDataReturnedError):
     """ An empty JSON file was downloaded from 4chan. This usually means that the thread
     is dead/deleted. 
     """
