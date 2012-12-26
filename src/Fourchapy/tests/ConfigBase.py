@@ -68,9 +68,11 @@ class ConfigBasedTests(unittest.TestCase):
             self.cfg.set(section, option, str(default))
             self.log.debug("Added option %r.%r to config with value %r", section, option, default)
         if vtype == 'str' or vtype is None:
-            return self.cfg.get(section, option)
+            ret = self.cfg.get(section, option)
         else:
             attr = "get%s" % vtype
             assert hasattr(self.cfg, attr), "Entry type %r doesn't exist (aka ConfigObj.%r)" % (vtype, attr) 
-            return getattr(self.cfg, attr)(section, option)
-        
+            ret = getattr(self.cfg, attr)(section, option)
+        self.log.debug("%r.%r=%r", section, option, ret)
+        return ret
+    
