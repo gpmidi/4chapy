@@ -129,7 +129,10 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
             self.assertTrue(board.TotalThreads() > 0, "Total threads should be > 0")
             self.assertTrue(isinstance(board.TotalThreads(), int), "Total threads should be an int")
 
-            self.assertTrue(isinstance(board.getBoardAPIPageURL(), str), "URL should be a string")
+            self.assertTrue(
+                            isinstance(board.getBoardAPIPageURL(), str) or isinstance(board.getBoardAPIPageURL(), unicode),
+                            "URL should be a string. Got %r" % board.getBoardAPIPageURL(),
+                            )
             self.assertTrue(board.getBoardAPIPageURL().startswith(board.Proto), "Protocol should match the API URL")
     
     def testBoardPages(self):
