@@ -94,7 +94,7 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
         
         self.assertEqual(len(boardList), len(boardDict), "List and dict should have same items")
         self.assertTrue(len(boardDict) > 0, "There should be at least one board listed")
-        for board in boardList:
+        for board in boardList[:self.recursionMaxBoards]:
             self.assertTrue(board.Board in boardDict, "Board %r is in the list but not the dict" % board.Board)
             self.assertEqual(board, boardDict[board.Board], "Boards and BoardsDict should be the same object")
         
@@ -102,7 +102,7 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
         boardDict = self.index.BoardsDict
         
         # Check data values for all known boards
-        for boardID, board in boardDict.items():
+        for boardID, board in boardDict.items()[:self.recursionMaxBoards]:
             # Board ID tests
             self.assertEqual(boardID, board.Board, "Board ID str should match boardObj.Board")
             self.assertTrue(len(boardID) <= 5, "Board ID should be short")
@@ -136,7 +136,7 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
         boardDict = self.index.BoardsDict
         
         # Check data values for all known boards
-        for boardID, board in boardDict.items():
+        for boardID, board in boardDict.items()[:self.recursionMaxBoards]:
             boardPages = board.getPages()
             self.assertTrue(len(boardPages) > 0, "Should have at least one page")
             totalItems = 0
