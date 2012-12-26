@@ -19,8 +19,8 @@ class PostTestSequence(BoardPageConfigBasedTests):
                         self.log.log(3, "Looking at post %r", post)
                         # Basic attributes tests
                         self.assertTrue(isinstance(post.Index, int), "The post index should be an int")
-                        self.assertTrue(isinstance(post.Board, str), "The board ID string should be a str")
-                        self.assertTrue(isinstance(post.Proto, str), "The protocol should be a str")
+                        self.assertTrue(isinstance(post.Board, (str, unicode)), "The board ID string should be a str")
+                        self.assertTrue(isinstance(post.Proto, (str, unicode)), "The protocol should be a str")
                         self.assertTrue(post.Proto.lower() in ['http', 'https'], "Proto %r isn't http or https" % post.Proto)
 
                         

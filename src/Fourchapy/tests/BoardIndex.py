@@ -85,6 +85,8 @@ class BoardConfigBasedTests(ConfigBasedTests):
         # Run the fetches now rather than wait
         boardList = self.index.Boards
         boardDict = self.index.BoardsDict
+        self.log.debug("Setup %r with %d boards", self.index, len(self.index.Boards))
+        
 
 class BoardIndexTestSequence(BoardConfigBasedTests):
 
@@ -95,6 +97,7 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
         self.assertEqual(len(boardList), len(boardDict), "List and dict should have same items")
         self.assertTrue(len(boardDict) > 0, "There should be at least one board listed")
         for board in boardList[:self.recursionMaxBoards]:
+            self.log.debug("Checking Boards vs BoardsDict for %r", board)
             self.assertTrue(board.Board in boardDict, "Board %r is in the list but not the dict" % board.Board)
             self.assertEqual(board, boardDict[board.Board], "Boards and BoardsDict should be the same object")
         
@@ -130,7 +133,7 @@ class BoardIndexTestSequence(BoardConfigBasedTests):
             self.assertTrue(isinstance(board.TotalThreads(), int), "Total threads should be an int")
 
             self.assertTrue(
-                            isinstance(board.getBoardAPIPageURL(), str) or isinstance(board.getBoardAPIPageURL(), unicode),
+                            isinstance(board.getBoardAPIPageURL(), (str, unicode)),
                             "URL should be a string. Got %r" % board.getBoardAPIPageURL(),
                             )
             self.assertTrue(board.getBoardAPIPageURL().startswith(board.Proto), "Protocol should match the API URL")
