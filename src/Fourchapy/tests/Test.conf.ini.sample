@@ -3,31 +3,14 @@
 # Logging level
 # Valid: 1-50
 loggingLevel=10
+# proxy_http=http://someserver.local:3128
+# proxy_https=http://someserver.local:3128
 
-[ThreadMain-1]
-boardID=diy
-threadID=296766
+# The max number of boards/pages/posts/etc to download when doing 
+# recursive operations to find valid boards->pages->threads->etc
+[RecursiveOptions]
+MaxBoards=2
+MaxPages=2
+MaxThreads=5
+MaxPosts=5
 
-[ThreadMain-2]
-boardID=diy
-threadID=296862
-
-[BoardsMain-1]
-boardID=diy
-pageID=0
-proto=http
-
-[BoardsMain-2]
-boardID=b
-pageID=2
-proto=https
-
-[BoardsDictMain-1]
-boardID=diy
-pageID=0
-proto=https
-
-[BoardsDictMain-2]
-boardID=b
-pageID=2
-proto=http
