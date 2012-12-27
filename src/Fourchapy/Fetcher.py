@@ -104,9 +104,23 @@ class Fetch4chan(object):
             return newFunc
         log(10, "Built decorator %r", decorator)
         return decorator
-        
+    
+    def _isOurMethod(self, attr):
+        """ Return True if the lazyAttrs function listed under
+        attr is a method of this class. 
+        """
+        # Make sure that this attr is for this class
+        for testAttrName in dir(self):
+            testAttr = getattr(self, testAttrName)
+            if hasattr(testAttr, 'im_func'):
+                func = getattr(testAttr, 'im_func')
+                if func == self.lazyAttrs[attr]:
+                    log(10, "%r (aka %r) is in %r under %r", func, testAttr, self, attr)
+                    return True
+        return False
+    
     def __getattr__(self, attr):
-        if attr in self.lazyAttrs:
+        if attr in self.lazyAttrs and self._isOurMethod(attr = attr):
             log(10, "Incoming request for our information via %r.%r", self, attr)
             # Set it to make sure we don't end up back here if the update method
             # doens't set it for some reason. 
@@ -132,7 +146,7 @@ class Fetch4chan(object):
             # Return the data
             return value
         else:
-            raise AttributeError("No such attribute %r" % attr)
+            raise AttributeError("%r object has no attribute %r" % (self, attr))
     
     def fetchText(self, data = '', sleep = None, ignoreRateLimit = None):
         """ Fetch all data from self.URL

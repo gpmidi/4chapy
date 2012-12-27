@@ -50,6 +50,13 @@ class BoardIndexFetchSequence(ConfigBasedTests):
         self.assertTrue('Boards' in i.__dict__, "BoardIndex.Boards should have been auto created")
         self.assertTrue('BoardsDict' in i.__dict__, "BoardIndex.BoardsDict should have been auto created")
 
+    def testBoardIndexAvailAttrs(self):
+        from Fourchapy import BoardIndex
+        bindex = BoardIndex(proto = 'http', proxies = self.proxy)
+        self.assertTrue(hasattr(bindex, 'Boards'), "Expected a BoardIndex.Boards attr to exist")
+        self.assertRaises(AttributeError, getattr, bindex, 'Posts')
+        self.assertRaises(AttributeError, getattr, bindex, 'Threads')
+
 class BoardConfigBasedTests(ConfigBasedTests):
     
     def setUp(self):
