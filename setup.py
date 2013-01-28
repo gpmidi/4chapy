@@ -21,7 +21,7 @@
 '''
 from setuptools import setup
 import sys
-VERSION = "0.4"
+VERSION = "1.0"
 
 # Generate docs
 import os
@@ -70,5 +70,7 @@ an returns easy-to-use objects instead of raw data structures.
       keywords = '4chan json http https thread page post',
       install_requires = [
         'distribute',
+        'apiclient',
+        'urllib3',
       ],
       )
