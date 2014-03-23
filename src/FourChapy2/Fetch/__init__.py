@@ -22,11 +22,3 @@ Created on Jan 27, 2013
 
 @author: Paulson McIntyre (GpMidi) <paul@gpmidi.net>
 '''
-
-from apiclient import APIClient
-
-
-class BaseFetcher(APIClient):
-    BASE_URL = None
-
-

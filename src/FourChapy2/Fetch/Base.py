@@ -24,6 +24,10 @@ Created on Jan 27, 2013
 from apiclient import APIClient, RateLimiter, MemcachdCacher
 
 class FourChanFetcher(APIClient):
+    # Constants
+    PROTO_HTTP = 'HTTP'
+    PROTO_HTTPS = 'HTTPS'
+
     # Base URLs to use for API requests
     BASE_URL_HTTP = "http://api.4chan.org/"
     BASE_URL_HTTPS = "https://api.4chan.org/"
@@ -43,7 +47,7 @@ class FourChanFetcher(APIClient):
     shouldSleep = True
     
     
-    def __init__(self, proto = "HTTP", proxies = {}, sleep = None, memcachedServers = []):
+    def __init__(self, proto = PROTO_HTTP, proxies = {}, sleep = None, memcachedServers = []):
         """
         @param proto: HTTP or HTTPS to indicate if SSL should be used or not.  
         @param proxies: A dict of protocol:url strings that indicate what proxy to use
@@ -56,9 +60,9 @@ class FourChanFetcher(APIClient):
         memcached server listed as "<hostname|IP>:<port>". Alternatively, each element in the
         list may be a tuple of ("<hostname|IP>:<port>",weight).  
         """
-        if proto.lower() == "https":
+        if proto.lower() == self.PROTO_HTTPS:
             self.BASE_URL = self.BASE_URL_HTTPS
-        elif proto.lower() == "http":
+        elif proto.lower() == self.PROTO_HTTP:
             self.BASE_URL = self.BASE_URL_HTTP
         else:
             raise ValueError("Expected the protocol to be HTTP or HTTPS, not %r" % proto)
