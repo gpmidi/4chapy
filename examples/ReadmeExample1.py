@@ -20,6 +20,9 @@ Created on Dec 25, 2012
 
 @author: Paulson McIntyre (GpMidi) <paul@gpmidi.net>
 '''
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 
 # Import the library
 from Fourchapy import BoardIndex
