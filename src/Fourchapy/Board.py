@@ -27,6 +27,7 @@ log = logger.log
 
 from ThreadPage import FourchapyThreadPage
 
+
 class FourchapyBoard(object):
     """ A 4chan board
     """
